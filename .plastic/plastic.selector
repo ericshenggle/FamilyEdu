@@ -1,0 +1,4 @@
+repository "FamilyEdu@wechat_os_qy09dyrpoiuh8t0pporgaikea@cloud.cn"
+  path "/"
+    br "/main"
+    co "/main"

@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Plugins/GameCreator/Examples/Scenes/Example-Intro.unity
+    guid: 8997031d9d48747c99f486950d712fbc
+  - enabled: 0
+    path: Assets/Plugins/GameCreator/Examples/Scenes/Example-Hub.unity
+    guid: d2386a5363a1b463391c5a1932e29bc5
+  - enabled: 0
+    path: Assets/Plugins/GameCreator/Examples/Scenes/Example-1.unity
+    guid: b66b3da9c1cbc4083b45c8233468f872
+  - enabled: 0
+    path: Assets/Plugins/GameCreator/Examples/Scenes/Example-2.unity
+    guid: 04623eb03fc804386b25c20efcc08eb5
+  - enabled: 0
+    path: Assets/Plugins/GameCreator/Examples/Scenes/Example-3.unity
+    guid: 049c31a0f8082406eb0a64934aa5f3b4
+  - enabled: 1
+    path: Assets/Scenes/LoginLoading.unity
+    guid: 0700249ecc9784a93bb117e8ddef3384
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: 484b1c7a1b4ba4924a06d0d7f9b58687
+  - enabled: 1
+    path: Assets/Scenes/Home.unity
+    guid: a0afe15fe5f604bd3b0e354866b6fc11
+  - enabled: 1
+    path: Assets/Scenes/Classroom.unity
+    guid: 0c09b31f832be4f3a9b6922cff86e7c4
+  - enabled: 1
+    path: Assets/Scenes/AITeacher.unity
+    guid: 6e5dbed3894f64717a4893fcb0dba15b
+  m_configObjects: {}
