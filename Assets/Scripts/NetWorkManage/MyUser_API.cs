@@ -220,7 +220,10 @@ namespace NetWorkManage
 
         void Awake()
         {
-            this.m_myHome_API = gameObject.GetComponent<MyHome_API>();
+            if (!isClassroom)
+            {
+                this.m_myHome_API = gameObject.GetComponent<MyHome_API>();
+            }
             if (RequestSender.Instance != null)
             {
                 SendUserInfoRequest(RequestSender.Instance.UserId);
