@@ -9,7 +9,7 @@ using UnityEngine;
 
 using EasyBuildSystem.Features.Runtime.Buildings.Placer;
 
-namespace EasyBuildSystem.Examples.Bases.Scripts.UI
+namespace MyTools.UI
 {
     public class MyUIBuildingControl : MonoBehaviour
     {

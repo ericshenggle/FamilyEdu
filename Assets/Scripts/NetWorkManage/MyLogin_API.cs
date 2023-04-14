@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using MyTools;
+using GameCreator.Variables;
 
 namespace NetWorkManage
 {
@@ -138,6 +139,8 @@ namespace NetWorkManage
         [SerializeField] public Image m_imageCaptcha;
         [SerializeField] public Text m_showProcessing;
 
+        [SerializeField] public LocalVariables loginStatus;
+
         void Start()
         {
             // StartCoroutine(printToken());
@@ -185,18 +188,28 @@ namespace NetWorkManage
             {
                 MyDebug.Log(responseContent);
                 this.myLoginData = ResponseData.FromJson(responseContent);
-                if (this.myLoginData.Code == 400 || this.myLoginData.Code == 500) {
+                if (this.myLoginData.Code == 400 || this.myLoginData.Code == 500)
+                {
                     this.m_showProcessing.text = this.myLoginData.Message + "，请重新登录！！！";
                     return;
-                } else if (this.myLoginData.Code != 200)
+                }
+                else if (this.myLoginData.Code != 200)
                 {
                     this.m_showProcessing.text = "网络问题，请重新登录！！！";
                     return;
                 }
                 this.m_showProcessing.text = "登录成功！！！";
-                RequestSender.Instance.setTokenAndUserId(this.myLoginData.Data.Token.TokenValue, this.myLoginData.Data.User.Id,
-                            this.myLoginData.Data.Token.IsLogin);
+                RequestSender.Instance.setTokenAndUserId(this.myLoginData.Data.Token.TokenValue, this.myLoginData.Data.User.Id
+                            );
+                this.isLogin(this.myLoginData.Data.Token.IsLogin);
             });
+        }
+
+
+        public void isLogin(bool status)
+        {
+            this.loginStatus.Get("isAlreadyLogin").Update(status);
+            MyDebug.Log("Update the variable");
         }
 
     }

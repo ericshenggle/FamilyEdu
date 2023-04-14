@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using System.Globalization;
+using GameCreator.Variables;
 using MyTools;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -61,6 +62,7 @@ namespace NetWorkManage
         [SerializeField] public InputField m_inputFieldCaptcha;
         [SerializeField] public Image m_imageCaptcha;
         [SerializeField] public Text m_showProcessing;
+        [SerializeField] public LocalVariables loginStatus;
 
         void Start()
         {
@@ -109,8 +111,15 @@ namespace NetWorkManage
                     return;
                 }
                 this.m_showProcessing.text = "注册成功！！！";
+                this.isRegister(true);
             });
         }
-    }
 
+
+        public void isRegister(bool status)
+        {
+            this.loginStatus.Get("isAlreadyRegister").Update(status);
+            MyDebug.Log("Update the variable");
+        }
+    }
 }

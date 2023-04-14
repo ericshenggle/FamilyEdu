@@ -10,9 +10,11 @@ using UnityEngine.UI;
 
 namespace NetWorkManage
 {
-    public class MyUser_API : MonoBehaviour
+    public class MyUser_API : MySingleton<MyUser_API>
     {
-        private string requestUrl = RequestSender.url + "home-user/user/info";
+        private string getUrl = RequestSender.url + "home-user/user/info";
+
+        private string updateUrl = RequestSender.url + "home-user/user/update";
 
         /// <summary>
         /// ResponseWrapperUserInfo
@@ -199,9 +201,9 @@ namespace NetWorkManage
             public static readonly RelativeTypeConverter Singleton = new RelativeTypeConverter();
         }
 
-        public ResponseData myUser;
+        public ResponseData myUserData;
 
-        public MyHome_API m_myHome_API;
+        public MyHome_API myHome_API;
 
         public bool isClassroom = false;
         public Text m_name;
@@ -214,63 +216,80 @@ namespace NetWorkManage
         public Text m_favCount;
         public Image m_avatar;
 
-        public MyModelSelection m_myModelSelection;
+        public MyCharacterModel_API myModel_API;
 
-
-
-        void Awake()
+        void Start()
         {
             if (!isClassroom)
             {
-                this.m_myHome_API = gameObject.GetComponent<MyHome_API>();
+                this.myHome_API = gameObject.GetComponent<MyHome_API>();
             }
+            this.myModel_API = gameObject.GetComponent<MyCharacterModel_API>();
             if (RequestSender.Instance != null)
             {
-                SendUserInfoRequest(RequestSender.Instance.UserId);
+                this.getUserInfoRequest(RequestSender.Instance.UserId);
             }
         }
 
 
-        public void SendUserInfoRequest(long id)
+        public void getUserInfoRequest(long id)
         {
             string requestData = RequestSender.getUrlParams(new Dictionary<string, string>{
             {"userId", id.ToString()}
         });
-            RequestSender.Instance.SendGETRequest(requestData, requestUrl, (string responseContent) =>
+            RequestSender.Instance.SendGETRequest(requestData, getUrl, (string responseContent) =>
             {
                 MyDebug.Log(responseContent);
-                this.myUser = ResponseData.FromJson(responseContent);
-                if (this.myUser.Code != 200)
+                this.myUserData = ResponseData.FromJson(responseContent);
+                if (this.myUserData.Code != 200)
                 {
                     MyDebug.LogError("Get UserInfo failed!");
                     return;
                 }
                 if (!isClassroom)
                 {
-                    if (this.myUser.Data.HomeId != null && this.m_myHome_API != null)
+                    if (this.myUserData.Data.HomeId != null && this.myHome_API != null)
                     {
-                        this.m_myHome_API.SendHomeInfoRequest((long)this.myUser.Data.HomeId);
+                        this.myHome_API.getHomeInfoRequest();
                     }
-                    this.m_name.text += this.myUser.Data.Name;
-                    if (this.myUser.Data.Age != null && this.myUser.Data.Age != 0)
+                    this.m_name.text += this.myUserData.Data.Name;
+                    if (this.myUserData.Data.Age != null && this.myUserData.Data.Age != 0)
                     {
-                        this.m_age.text += this.myUser.Data.Age.ToString();
+                        this.m_age.text += this.myUserData.Data.Age.ToString();
                     }
-                    this.m_email.text += this.myUser.Data.Email;
-                    this.m_sex.text += this.myUser.Data.Sex;
-                    this.m_phone.text += this.myUser.Data.Phone;
-                    this.m_relativeTag.text += this.show_RelativeType[(int)this.myUser.Data.RelativeType];
-                    this.m_likeCount.text += this.myUser.Data.LikeCount.ToString();
-                    this.m_favCount.text += this.myUser.Data.FavCount.ToString();
-                    getAvatar();
-                    this.m_myModelSelection.updateModels.Invoke(myUser);
+                    this.m_email.text += this.myUserData.Data.Email;
+                    this.m_sex.text += this.myUserData.Data.Sex;
+                    this.m_phone.text += this.myUserData.Data.Phone;
+                    this.m_relativeTag.text += this.show_RelativeType[(int)this.myUserData.Data.RelativeType];
+                    this.m_likeCount.text += this.myUserData.Data.LikeCount.ToString();
+                    this.m_favCount.text += this.myUserData.Data.FavCount.ToString();
+                    this.getAvatar();
+                }
+                this.myModel_API.getUserModelIdRequest();
+            });
+        }
+
+        public void updateUserInfoRequest()
+        {
+            string requestData = RequestSender.getUrlParams(new Dictionary<string, string>
+            {
+
+            });
+            RequestSender.Instance.SendPostRequest(requestData, updateUrl, (string responseContent) =>
+            {
+                MyDebug.Log(responseContent);
+                this.myUserData = ResponseData.FromJson(responseContent);
+                if (this.myUserData.Code != 200)
+                {
+                    MyDebug.LogError("Update UserInfo failed!");
+                    return;
                 }
             });
         }
 
         public void getAvatar()
         {
-            RequestSender.Instance.SendAvatarRequest(this.myUser.Data.AvatarUrl, (Sprite sprite) =>
+            RequestSender.Instance.SendAvatarRequest(this.myUserData.Data.AvatarUrl, (Sprite sprite) =>
             {
                 if (sprite == null)
                 {
@@ -281,10 +300,6 @@ namespace NetWorkManage
             });
         }
 
-        public void setModelIndex(int index)
-        {
-            // TODO: 
-        }
 
     }
 }

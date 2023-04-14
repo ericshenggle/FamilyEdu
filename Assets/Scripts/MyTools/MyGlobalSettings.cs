@@ -15,10 +15,10 @@ namespace MyTools
 
         void Awake()
         {
-            Application.targetFrameRate = targetFrameRate;
             if (Instance != null)
             {
                 Destroy(gameObject);
+                MyDebug.Log("Destroy latest gameobject");
             }
             else
             {
@@ -27,16 +27,10 @@ namespace MyTools
             }
         }
 
-        // Start is called before the first frame update
         void Start()
         {
-
+            Application.targetFrameRate = targetFrameRate;
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

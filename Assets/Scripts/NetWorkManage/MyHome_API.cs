@@ -10,6 +10,7 @@ using MyTools;
 
 namespace NetWorkManage
 {
+    [RequireComponent(typeof(MyUser_API))]
     public class MyHome_API : MonoBehaviour
     {
         private string requestUrl = RequestSender.url + "home-user/home/info";
@@ -109,10 +110,10 @@ namespace NetWorkManage
         public Text m_likeCount;
         public Text m_favCount;
 
-        public void SendHomeInfoRequest(long homeId)
+        public void getHomeInfoRequest()
         {
             string requestData = RequestSender.getUrlParams(new Dictionary<string, string>{
-            {"homeId", homeId.ToString()}
+            {"homeId", MyUser_API.Instance.myUserData.Data.HomeId.ToString()}
         });
             RequestSender.Instance.SendGETRequest(requestData, requestUrl, (string responseContent) =>
             {
@@ -126,7 +127,7 @@ namespace NetWorkManage
                 this.m_name.text += this.myHome.Data.Name;
                 if (this.myHome.Data.CreateUserId != null)
                 {
-                    getCreatorName((long)this.myHome.Data.CreateUserId);
+                    this.getCreatorName((long)this.myHome.Data.CreateUserId);
                 }
                 this.m_memberCount.text += this.myHome.Data.MemberIds.Length.ToString();
                 if (this.myHome.Data.Open != null)

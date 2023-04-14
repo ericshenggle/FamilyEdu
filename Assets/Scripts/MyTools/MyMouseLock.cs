@@ -90,6 +90,7 @@ namespace MyTools
                 CameraMotorTypeAdventure adventureMotor = (CameraMotorTypeAdventure)this.cameraMotor.cameraMotorType;
                 adventureMotor.allowOrbitInput = status;
                 adventureMotor.allowZoom = status;
+                adventureMotor.autoRepositionBehind = status;
             }
         }
 

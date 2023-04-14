@@ -133,6 +133,20 @@ namespace NetWorkManage
         }
 
         /// <summary>
+        /// 本方法将以GET方式请求
+        /// </summary>
+        /// <param name="originJson">要发送的Json对象</param>
+        /// <param name="url"></param>
+        /// <param name="callback">回调函数，不会处理异常，将信息原样返回</param>
+        public void SendGETRequestByJson(string originJson, string url, SendRequestCallback callback)
+        {
+            StartCoroutine(SendRequestByJson(originJson, url, callback, "GET",
+            new Dictionary<string, string>{
+                {"Authorization", Token}
+            }));
+        }
+
+        /// <summary>
         /// 本方法将以POST方式带有验证码的请求
         /// </summary>
         /// <param name="originJson">要发送的Json对象</param>
@@ -147,7 +161,7 @@ namespace NetWorkManage
         }
 
         /// <summary>
-        /// 本方法将以Json格式在向后端发送请求
+        /// 本方法将以Params格式在向后端发送请求
         /// </summary>
         /// <param name="originJson">要发送的Json对象</param>
         /// <param name="url"></param>
@@ -155,11 +169,47 @@ namespace NetWorkManage
         /// <param name="type">可以是"POST"、"GET"等</param>
         IEnumerator SendRequest(string originJson, string url, SendRequestCallback callback, string type, Dictionary<string, string> header = null)
         {
+
+            // 创建UnityWebRequest对象，用以发送请求。使用type指定请求的类型。
+            using (UnityWebRequest webRequest = new UnityWebRequest(url + originJson, type))
+            {
+                // 创建后端返回数据的接收端
+                webRequest.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+
+                foreach (KeyValuePair<string, string> kvp in header)
+                    webRequest.SetRequestHeader(kvp.Key, kvp.Value);
+
+                // 发送请求，并等待后端返回后继续调用。
+                yield return webRequest.SendWebRequest();
+
+                // 当后端炸了，可能返回一个空字符串，对空字符串进行json解析会导致错误
+                if (string.IsNullOrEmpty(webRequest.downloadHandler.text))
+                {
+                    callback(null);
+                }
+                else
+                {
+                    // 将后端返回的json字符串使用callback传递。
+                    callback(webRequest.downloadHandler.text);
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// 本方法将以Json格式在向后端发送请求
+        /// </summary>
+        /// <param name="originJson">要发送的Json对象</param>
+        /// <param name="url"></param>
+        /// <param name="call">回调函数，不会处理异常，将信息原样返回</param>
+        /// <param name="type">可以是"POST"、"GET"等</param>
+        IEnumerator SendRequestByJson(string originJson, string url, SendRequestCallback callback, string type, Dictionary<string, string> header = null)
+        {
             // 将字符串使用UTF-8编码成字节流
             byte[] postBytes = System.Text.Encoding.GetEncoding("UTF-8").GetBytes(originJson);
 
             // 创建UnityWebRequest对象，用以发送请求。使用type指定请求的类型。
-            using (UnityWebRequest webRequest = new UnityWebRequest(url + originJson, type))
+            using (UnityWebRequest webRequest = new UnityWebRequest(url, type))
             {
                 // 设置要上传的数据
                 webRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(postBytes);
@@ -296,17 +346,9 @@ namespace NetWorkManage
             return res.Substring(0, res.Length - 1);
         }
 
-        [SerializeField] public GameObject isAlreadyLogin;
-
         void Start()
         {
             getSavedTokenAndUserId();
-        }
-
-        public void isLogin(bool status)
-        {
-            VariablesManager.SetLocal(isAlreadyLogin, "isAlreadyLogin", status);
-            MyDebug.Log("Update the variable");
         }
 
         public void getSavedTokenAndUserId()
@@ -326,17 +368,10 @@ namespace NetWorkManage
             }
         }
 
-        public void setTokenAndUserId(string tokenValue, long id, bool isLogin)
+        public void setTokenAndUserId(string tokenValue, long id)
         {
             this.Token = tokenValue;
             this.UserId = id;
-            this.isLogin(isLogin);
-        }
-
-        public void clearTokenAndUserId()
-        {
-            this.Token = "";
-            this.UserId = -1;
         }
     }
 }

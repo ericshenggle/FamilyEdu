@@ -1649,8 +1649,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1899615455}
   - {fileID: 754935187}
+  - {fileID: 1899615455}
   - {fileID: 1953836608}
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -1667,7 +1667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d957246b243be41248fc547849695174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAlreadyLogin: {fileID: 1138877335}
+  loginStatus: {fileID: 1138877338}
 --- !u!850595691 &479237054
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -3198,7 +3198,7 @@ RectTransform:
   - {fileID: 1328459193}
   - {fileID: 1658770193}
   m_Father: {fileID: 471804277}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4083,8 +4083,9 @@ GameObject:
   - component: {fileID: 1138877338}
   - component: {fileID: 1138877333}
   - component: {fileID: 1138877336}
+  - component: {fileID: 1138877339}
   m_Layer: 0
-  m_Name: isAlreadyLogin
+  m_Name: loginStatus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4176,7 +4177,7 @@ MonoBehaviour:
       value: {fileID: 0}
     varObj:
       value: {fileID: 0}
-  isExpanded: 0
+  isExpanded: 1
 --- !u!114 &1138877338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4192,6 +4193,43 @@ MonoBehaviour:
   gid: 67741392-c40d-437c-8a17-681315156211
   references:
   - {fileID: 1138877336}
+  - {fileID: 1138877339}
+--- !u!114 &1138877339
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138877332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5427d7a3d7317485f8580bfb4a87d521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  variable:
+    name: isAlreadyRegister
+    save: 0
+    type: 3
+    tags: 0
+    varStr:
+      value: 
+    varNum:
+      value: 0
+    varBol:
+      value: 1
+    varCol:
+      value: {r: 1, g: 1, b: 1, a: 1}
+    varVc2:
+      value: {x: 0, y: 0}
+    varVc3:
+      value: {x: 0, y: 0, z: 0}
+    varTxt:
+      value: {fileID: 0}
+    varSpr:
+      value: {fileID: 0}
+    varObj:
+      value: {fileID: 0}
+  isExpanded: 1
 --- !u!1 &1149129393
 GameObject:
   m_ObjectHideFlags: 0
@@ -4208,6 +4246,7 @@ GameObject:
   - component: {fileID: 1149129395}
   - component: {fileID: 1149129401}
   - component: {fileID: 1149129400}
+  - component: {fileID: 1149129402}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -4308,6 +4347,7 @@ MonoBehaviour:
   actions:
   - {fileID: 1149129401}
   - {fileID: 1149129400}
+  - {fileID: 1149129402}
   executingIndex: -1
   isExecuting: 0
 --- !u!114 &1149129397
@@ -4434,6 +4474,49 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   active: 0
+--- !u!114 &1149129402
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149129393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d234afa27d82846abbf91e13c4f5eedf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isExpanded: 0
+  valueFrom: 2
+  global:
+    allowTypesMask: -1
+    name: 
+  local:
+    allowTypesMask: -1
+    name: 
+    targetType: 2
+    targetObject: {fileID: 0}
+  list:
+    targetType: 3
+    targetObject: {fileID: 0}
+    select: 1
+    index: 0
+  variable:
+    variableType: 1
+    global:
+      allowTypesMask: 8
+      name: 
+    local:
+      allowTypesMask: 8
+      name: isAlreadyRegister
+      targetType: 2
+      targetObject: {fileID: 1138877332}
+    list:
+      targetType: 3
+      targetObject: {fileID: 0}
+      select: 1
+      index: 0
+  value: 0
 --- !u!1 &1195233817
 GameObject:
   m_ObjectHideFlags: 0
@@ -5293,7 +5376,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   apiKey: 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
-  isAlreadyLogin: {fileID: 1138877332}
 --- !u!1 &1455175740
 GameObject:
   m_ObjectHideFlags: 0
@@ -6654,7 +6736,7 @@ RectTransform:
   - {fileID: 1741962077}
   - {fileID: 1633977473}
   m_Father: {fileID: 471804277}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6678,6 +6760,7 @@ MonoBehaviour:
   m_inputFieldCaptcha: {fileID: 1954629936}
   m_imageCaptcha: {fileID: 248231622}
   m_showProcessing: {fileID: 1051865965}
+  loginStatus: {fileID: 1138877338}
 --- !u!114 &1899615457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7147,6 +7230,7 @@ MonoBehaviour:
   m_inputFieldCaptcha: {fileID: 1993179732}
   m_imageCaptcha: {fileID: 1195233819}
   m_showProcessing: {fileID: 1752599400}
+  loginStatus: {fileID: 1138877338}
 --- !u!1 &1954629935
 GameObject:
   m_ObjectHideFlags: 0

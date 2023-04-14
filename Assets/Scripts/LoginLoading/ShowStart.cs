@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ShowStart : MonoBehaviour
 {
-    [SerializeField] public Transform isAlreadyLogin;
+    [SerializeField] public LocalVariables loginStatus;
 
     private GameObject childStart;
 
@@ -25,11 +25,20 @@ public class ShowStart : MonoBehaviour
     // Update is called once per frame
     private void updateLogin()
     {
-        bool m_login = (bool)VariablesManager.GetLocal(isAlreadyLogin.gameObject, "isAlreadyLogin");
+        bool m_login = loginStatus.Get("isAlreadyLogin").Get<bool>();
+        bool m_register = loginStatus.Get("isAlreadyRegister").Get<bool>();
         if(m_login && !childStart.activeSelf) {
             childStart.SetActive(true);
             childLogin.SetActive(false);
             childRegister.SetActive(false);
+        } else if(m_register && !childLogin.activeSelf) {
+            childStart.SetActive(false);
+            childLogin.SetActive(true);
+            childRegister.SetActive(false);
+        } else if(!m_register && !childRegister.activeSelf) {
+            childStart.SetActive(false);
+            childLogin.SetActive(false);
+            childRegister.SetActive(true);
         }
     }
 }
