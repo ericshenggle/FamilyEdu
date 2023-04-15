@@ -13,7 +13,7 @@ namespace NetWorkManage
 {
     public class MyRegister_API : MonoBehaviour
     {
-        private string requestUrl = RequestSender.url + "home-auth/register";
+        public string requestUrl = RequestSender.url + "home-auth/register";
 
         // Start is called before the first frame updat
         public partial class ResponseData

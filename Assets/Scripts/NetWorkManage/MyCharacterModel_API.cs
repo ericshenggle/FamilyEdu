@@ -19,7 +19,7 @@ namespace NetWorkManage
     [RequireComponent(typeof(MyUser_API))]
     public class MyCharacterModel_API : MonoBehaviour
     {
-        private string requestUrl = RequestSender.url + "home-user/unity/";
+        public string requestUrl = RequestSender.url + "home-user/unity/";
 
         public partial class ResponseData
         {

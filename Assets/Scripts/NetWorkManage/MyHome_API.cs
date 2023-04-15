@@ -13,7 +13,7 @@ namespace NetWorkManage
     [RequireComponent(typeof(MyUser_API))]
     public class MyHome_API : MonoBehaviour
     {
-        private string requestUrl = RequestSender.url + "home-user/home/info";
+        public string requestUrl = RequestSender.url + "home-user/home/info";
 
         /// <summary>
         /// ResponseWrapperHomeInfo
@@ -145,7 +145,7 @@ namespace NetWorkManage
             string requestData = RequestSender.getUrlParams(new Dictionary<string, string>{
             {"userId", id.ToString()}
         });
-            RequestSender.Instance.SendGETRequest(requestData, requestUrl, (string responseContent) =>
+            RequestSender.Instance.SendGETRequest(requestData, MyUser_API.Instance.getUrl, (string responseContent) =>
             {
                 MyDebug.Log(responseContent);
                 MyUser_API.ResponseData myCreator = MyUser_API.ResponseData.FromJson(responseContent);

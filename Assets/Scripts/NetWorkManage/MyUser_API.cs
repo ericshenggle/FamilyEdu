@@ -12,9 +12,9 @@ namespace NetWorkManage
 {
     public class MyUser_API : MySingleton<MyUser_API>
     {
-        private string getUrl = RequestSender.url + "home-user/user/info";
+        public string getUrl = RequestSender.url + "home-user/user/info";
 
-        private string updateUrl = RequestSender.url + "home-user/user/update";
+        public string updateUrl = RequestSender.url + "home-user/user/update";
 
         /// <summary>
         /// ResponseWrapperUserInfo

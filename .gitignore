@@ -6,7 +6,9 @@
 [Ll]ogs/
 [Aa]ssets/Plugins/C*
 [Aa]ssets/Plugins/G*
-[Aa]ssets/Plugins/N*
+[Aa]ssets/Plugins/Ninjutsu Games/**/*
+![Aa]ssets/Plugins/Ninjutsu Games/**/
+![Aa]ssets/Plugins/Ninjutsu Games/**/*.cs
 [Aa]ssets/Plugins/P*
 [Aa]ssets/Plugins.meta
 [Aa]ssets/Plugins/Easy Build System/**/*
