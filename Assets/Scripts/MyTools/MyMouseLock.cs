@@ -9,7 +9,7 @@ namespace MyTools
 
     public class MyMouseLock : MonoBehaviour
     {
-        public CameraMotor cameraMotor;
+        public CameraController cameraController;
 
         public KeyCode keyCode = KeyCode.LeftControl;
 
@@ -85,19 +85,21 @@ namespace MyTools
 
         public void fixAdventureMotor(bool status)
         {
-            if (this.cameraMotor != null && this.cameraMotor.cameraMotorType.GetType() == typeof(CameraMotorTypeAdventure))
+            if (this.cameraController != null && this.cameraController.currentCameraMotor.cameraMotorType.GetType() == typeof(CameraMotorTypeAdventure))
             {
-                CameraMotorTypeAdventure adventureMotor = (CameraMotorTypeAdventure)this.cameraMotor.cameraMotorType;
+                CameraMotorTypeAdventure adventureMotor = (CameraMotorTypeAdventure)this.cameraController.currentCameraMotor.cameraMotorType;
                 adventureMotor.allowOrbitInput = status;
                 adventureMotor.allowZoom = status;
                 adventureMotor.autoRepositionBehind = status;
             }
+
         }
 
-        public void setAdventureMotorTargetOffset(Vector3 offset) {
-            if (this.cameraMotor != null && this.cameraMotor.cameraMotorType.GetType() == typeof(CameraMotorTypeAdventure))
+        public void setAdventureMotorTargetOffset(Vector3 offset)
+        {
+            if (this.cameraController != null && this.cameraController.currentCameraMotor.cameraMotorType.GetType() == typeof(CameraMotorTypeAdventure))
             {
-                CameraMotorTypeAdventure adventureMotor = (CameraMotorTypeAdventure)this.cameraMotor.cameraMotorType;
+                CameraMotorTypeAdventure adventureMotor = (CameraMotorTypeAdventure)this.cameraController.currentCameraMotor.cameraMotorType;
                 adventureMotor.targetOffset = offset;
             }
         }

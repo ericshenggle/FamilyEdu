@@ -76,7 +76,7 @@ public class UserConnectInitate : MonoBehaviour
 
     void Update()
     {
-        if (updateUserProperty && updateUserCourseProperty && updateUserModelProperty)
+        if (updateUserProperty && updateUserModelProperty)
         {
             connectToPhoton.interactable = true;
         }
@@ -95,42 +95,39 @@ public class UserConnectInitate : MonoBehaviour
 
     public void UpdateProperty()
     {
-        if (myUserData != null)
+        if (localPlayerVariables != null)
         {
-            userName.text += myUserData.Data.Name;
-            m_player.NickName = myUserData.Data.Name;
-            m_player.SetInt("userId", (int)myUserData.Data.Id, true);
-            updateUserProperty = true;
-        }
-        else
-        {
-            updateUserProperty = false;
-        }
-        if (myUserCourseData != null)
-        {
-            roomName.text += myUserCourseData.Data.Name;
-            roomDescription.text += myUserCourseData.Data.Description;
-            int i = Array.IndexOf(myUserCourseData.Data.TeacherIds, myUserData.Data.Id);
-            m_player.SetBool("isTeacher", (i != -1 ? true : false), true);
-            if (localPlayerVariables != null) {
-                localPlayerVariables.Get("RoomName").Update(myUserCourseData.Data.Name + " ID " + myUserCourseData.Data.Id);
+            if (!updateUserProperty && myUserData != null)
+            {
+                userName.text += myUserData.Data.Name;
+                m_player.NickName = myUserData.Data.Name;
+                localPlayerVariables.Get("userId").Update((int)myUserData.Data.Id);
+                updateUserProperty = true;
+                MyDebug.Log("Update UserProperty!");
             }
-            updateUserCourseProperty = true;
-        }
-        else
-        {
-            updateUserCourseProperty = false;
-        }
-        if (myUserData != null && myUserModelData != null)
-        {
-            chooseModel(myUserData, (int)myUserModelData.Data);
-            m_player.SetString("userPrebName", userPrebName, true);
-            m_player.SetBool("isChild", isChild, true);
-            updateUserModelProperty = true;
-        }
-        else
-        {
-            updateUserModelProperty = false;
+            if (!updateUserCourseProperty && myUserCourseData != null)
+            {
+                roomName.text += myUserCourseData.Data.Name;
+                roomDescription.text += myUserCourseData.Data.Description;
+                int i = Array.IndexOf(myUserCourseData.Data.TeacherIds, myUserData.Data.Id);
+                localPlayerVariables.Get("isTeacher").Update(i != -1 ? true : false);
+                localPlayerVariables.Get("RoomName").Update(myUserCourseData.Data.Name + " ID " + myUserCourseData.Data.Id);
+                updateUserCourseProperty = true;
+                MyDebug.Log("Update UserCourseProperty!");
+            }
+            else if (!updateUserCourseProperty)
+            {
+                localPlayerVariables.Get("isTeacher").Update(true);
+                localPlayerVariables.Get("RoomName").Update("Test");
+            }
+            if (!updateUserModelProperty && myUserData != null && myUserModelData != null)
+            {
+                chooseModel(myUserData, (int)myUserModelData.Data);
+                localPlayerVariables.Get("userPrebName").Update(userPrebName);
+                localPlayerVariables.Get("isChild").Update(isChild);
+                updateUserModelProperty = true;
+                MyDebug.Log("Update UserModelProperty!");
+            }
         }
 
     }

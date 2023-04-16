@@ -100,7 +100,7 @@ namespace NetWorkManage
                 ResponseData data = ResponseData.FromJson(responseContent);
                 if (data.Code != 200)
                 {
-                    MyDebug.LogError("Get UserInfo failed!");
+                    MyDebug.LogError("Get UserModelId failed!");
                     return;
                 }
                 userConnectInitate.userModelResponseEvent?.Invoke(data);

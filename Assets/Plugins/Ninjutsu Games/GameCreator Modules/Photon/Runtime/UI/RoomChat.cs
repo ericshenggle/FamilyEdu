@@ -51,7 +51,7 @@ namespace NJG.PUN.UI
         public bool destroyIfOffline = false;
         
         [Header("Floating Message")] public bool enableFloatingMessage = true;
-        public Vector3 floatingMessageOffset = new Vector3(0, 2, 0);
+        public Vector3 floatingMessageOffset = new Vector3(0, 0, 0);
         public float floatingMessageTime = 2;
         public Color floatingMessageColor = Color.white;
 

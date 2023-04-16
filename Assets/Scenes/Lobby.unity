@@ -3911,7 +3911,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74983a663a4194d32b96b81139efe248, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestUrl: http://192.168.5.137:8080/home-user/unity/
   isCompletedDownLoad: 0
   isCompletedUpLoad: 0
 --- !u!1001 &329127370
@@ -11045,8 +11044,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25ed58c9f4f454c169ec49ab4d9e7c21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getUrl: http://192.168.5.137:8080/home-user/user/info
-  updateUrl: http://192.168.5.137:8080/home-user/user/update
   show_RelativeType:
   - 
   - 
@@ -11071,7 +11068,7 @@ MonoBehaviour:
   m_likeCount: {fileID: 1083114710}
   m_favCount: {fileID: 1492579815}
   m_avatar: {fileID: 1706645220}
-  myModel_API: {fileID: 977773338271978711}
+  myCharacterModel_API: {fileID: 0}
 --- !u!114 &1047055454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11084,7 +11081,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f99d00291a64a6cab44f9d67079ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestUrl: http://192.168.5.137:8080/home-user/home/info
   m_name: {fileID: 225933556}
   m_creatorName: {fileID: 1990058657}
   m_memberCount: {fileID: 2031553325}
@@ -22551,7 +22547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a6f03be39a94bb88a688aeb1c2f271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraMotor: {fileID: 1846027746}
+  cameraController: {fileID: 1913947365}
   keyCode: 306
 --- !u!114 &977773338271978711
 MonoBehaviour:
@@ -22565,7 +22561,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e988473648d5d4b39ba21368be75499b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestUrl: http://192.168.5.137:8080/home-user/unity/
   m_selectedModel: {fileID: 1878681849}
   m_isChild: {fileID: 806877840}
   m_characterModels: {fileID: 1098756513}

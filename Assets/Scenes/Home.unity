@@ -2974,7 +2974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a6f03be39a94bb88a688aeb1c2f271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraMotor: {fileID: 1358106126}
+  cameraController: {fileID: 1116539242}
   keyCode: 306
 --- !u!114 &280735332
 MonoBehaviour:
@@ -2988,7 +2988,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f99d00291a64a6cab44f9d67079ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestUrl: http://192.168.5.137:8080/home-user/home/info
   m_name: {fileID: 1685066614}
   m_creatorName: {fileID: 268097073}
   m_memberCount: {fileID: 1187275284}
@@ -3007,8 +3006,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25ed58c9f4f454c169ec49ab4d9e7c21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getUrl: http://192.168.5.137:8080/home-user/user/info
-  updateUrl: http://192.168.5.137:8080/home-user/user/update
   show_RelativeType:
   - 
   - 
@@ -3033,7 +3030,7 @@ MonoBehaviour:
   m_likeCount: {fileID: 2021299159}
   m_favCount: {fileID: 34112169}
   m_avatar: {fileID: 1194214713}
-  myModel_API: {fileID: 0}
+  myCharacterModel_API: {fileID: 0}
 --- !u!4 &280735334
 Transform:
   m_ObjectHideFlags: 0
@@ -3062,7 +3059,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e988473648d5d4b39ba21368be75499b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestUrl: http://192.168.5.137:8080/home-user/unity/
   m_selectedModel: {fileID: 1852832936}
   m_isChild: {fileID: 1030117151}
   m_characterModels: {fileID: 350173673}
@@ -13437,7 +13433,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74983a663a4194d32b96b81139efe248, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestUrl: http://192.168.5.137:8080/home-user/unity/
   isCompletedDownLoad: 0
   isCompletedUpLoad: 0
 --- !u!1 &1080648078
@@ -16199,7 +16194,7 @@ MonoBehaviour:
       index: 0
   allowZoom: 1
   zoomSpeed: 25
-  initialZoom: 3
+  initialZoom: 2
   zoomSensitivity: 5
   zoomLimits: {x: 1, y: 10}
   avoidWallClip: 1
