@@ -12,7 +12,7 @@ namespace NetWorkManage
 {
     public class MyLogin_API : MonoBehaviour
     {
-        public string requestUrl = RequestSender.url + "home-auth/login";
+        public static string requestUrl = RequestSender.url + "home-auth/login";
 
         // Start is called before the first frame updat
         public partial class ResponseData

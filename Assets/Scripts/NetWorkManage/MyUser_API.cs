@@ -12,9 +12,9 @@ namespace NetWorkManage
 {
     public class MyUser_API : MySingleton<MyUser_API>
     {
-        public string getUrl = RequestSender.url + "home-user/user/info";
+        public static string requestUrl = RequestSender.url + "home-user/user/info";
 
-        public string updateUrl = RequestSender.url + "home-user/user/update";
+        public static string updateUrl = RequestSender.url + "home-user/user/update";
 
         /// <summary>
         /// ResponseWrapperUserInfo
@@ -216,7 +216,7 @@ namespace NetWorkManage
         public Text m_favCount;
         public Image m_avatar;
 
-        public MyCharacterModel_API myModel_API;
+        public MyCharacterModel_API myCharacterModel_API;
 
         void Start()
         {
@@ -224,20 +224,19 @@ namespace NetWorkManage
             {
                 this.myHome_API = gameObject.GetComponent<MyHome_API>();
             }
-            this.myModel_API = gameObject.GetComponent<MyCharacterModel_API>();
+            this.myCharacterModel_API = gameObject.GetComponent<MyCharacterModel_API>();
             if (RequestSender.Instance != null)
             {
                 this.getUserInfoRequest(RequestSender.Instance.UserId);
             }
         }
 
-
         public void getUserInfoRequest(long id)
         {
             string requestData = RequestSender.getUrlParams(new Dictionary<string, string>{
             {"userId", id.ToString()}
         });
-            RequestSender.Instance.SendGETRequest(requestData, getUrl, (string responseContent) =>
+            RequestSender.Instance.SendGETRequest(requestData, requestUrl, (string responseContent) =>
             {
                 MyDebug.Log(responseContent);
                 this.myUserData = ResponseData.FromJson(responseContent);
@@ -265,9 +264,29 @@ namespace NetWorkManage
                     this.m_favCount.text += this.myUserData.Data.FavCount.ToString();
                     this.getAvatar();
                 }
-                this.myModel_API.getUserModelIdRequest();
+                this.myCharacterModel_API.getUserModelIdRequest();
             });
         }
+
+        public static void getUserInfoRequestInClassroom(long id, UserConnectInitate userConnectInitate)
+        {
+            string requestData = RequestSender.getUrlParams(new Dictionary<string, string>{
+            {"userId", id.ToString()}
+        });
+            RequestSender.Instance.SendGETRequest(requestData, requestUrl, (string responseContent) =>
+            {
+                MyDebug.Log(responseContent);
+                ResponseData data = ResponseData.FromJson(responseContent);
+                if (data.Code != 200)
+                {
+                    MyDebug.LogError("Get UserInfo failed!");
+                    return;
+                }
+                userConnectInitate.userResponseEvent?.Invoke(data);
+            });
+        }
+
+
 
         public void updateUserInfoRequest()
         {

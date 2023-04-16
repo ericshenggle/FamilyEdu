@@ -17,7 +17,6 @@ namespace NetWorkManage
     {
         public static string url = "http://192.168.5.137:8080/";
         public static string captcha_url = url + "home-auth/captcha.jpg";
-        public static string openai_url = "https://api.openai.com/v1/chat/completions";
 
         /// <summary>
         /// 当前用户的UserId

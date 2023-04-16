@@ -18,6 +18,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
+using Button = UnityEngine.UI.Button;
 
 namespace NJG.PUN.UI
 {
@@ -37,6 +38,8 @@ namespace NJG.PUN.UI
 #else
         public InputField input;
 #endif
+        public Button m_Submitt;
+        
         public Image background;
 
         /// <summary>
@@ -163,7 +166,7 @@ namespace NJG.PUN.UI
                 #endif
                 
                 input.onValueChanged.AddListener(OnValueChanged);
-                input.onEndEdit.AddListener(OnSubmitInternal);
+                m_Submitt.onClick.AddListener(OnSubmitInternal);
             }
             
             var eventTrigger2 = container.GetComponent<EventTrigger>();
@@ -218,7 +221,7 @@ namespace NJG.PUN.UI
                 input.onDeselect.RemoveListener(s => Deselect());
 #endif
                 input.onValueChanged.RemoveListener(OnValueChanged);
-                input.onEndEdit.RemoveListener(OnSubmitInternal);
+                m_Submitt.onClick.RemoveListener(OnSubmitInternal);
             }
         }
 
@@ -275,7 +278,7 @@ namespace NJG.PUN.UI
         /// <summary>
         /// Handle inputfield onEndEdit event.
         /// </summary>
-        public void OnSubmitInternal(string content)
+        public void OnSubmitInternal()
         {
             /*if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
             {
@@ -309,6 +312,7 @@ namespace NJG.PUN.UI
                 }
             }*/
             mIgnoreNextEnter = true;
+            string content = input.text;
             input.text = string.Empty;
             if (!string.IsNullOrWhiteSpace(content)) OnSubmit(content);
 

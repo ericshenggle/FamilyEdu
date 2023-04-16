@@ -8,6 +8,8 @@ namespace NetWorkManage
 {
     public class MyChatGPT_API : MonoBehaviour
     {
+        public static string requestUrl = "https://api.openai.com/v1/chat/completions";
+
         public partial class ResponseData
         {
             [JsonProperty("choices")]
@@ -69,7 +71,7 @@ namespace NetWorkManage
                 requestSender = FindAnyObjectByType<RequestSender>();
             }
             string requestData = JsonConvert.SerializeObject(parameters);
-            requestSender.SendChatGPTRequest(requestData, RequestSender.openai_url, (string responseContent) =>
+            requestSender.SendChatGPTRequest(requestData, requestUrl, (string responseContent) =>
             {
                 currentResponse = ResponseData.FromJson(responseContent);
                 // 输出结果

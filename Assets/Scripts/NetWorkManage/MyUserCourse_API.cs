@@ -7,16 +7,17 @@ using UnityEngine.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using MyTools;
+using System.Linq;
 
 namespace NetWorkManage
 {
-    [RequireComponent(typeof(MyUser_API))]
-    public class MyHome_API : MonoBehaviour
+
+    public class MyUserCourse_API : MonoBehaviour
     {
-        public static string requestUrl = RequestSender.url + "home-user/home/info";
+        public static string requestUrl = RequestSender.url + "home-course/course/info/user";
 
         /// <summary>
-        /// ResponseWrapperHomeInfo
+        /// ResponseWrapperCourseInfo
         /// </summary>
         public partial class ResponseData
         {
@@ -24,7 +25,7 @@ namespace NetWorkManage
             public long? Code { get; set; }
 
             [JsonProperty("data", NullValueHandling = NullValueHandling.Ignore)]
-            public HomeInfo Data { get; set; }
+            public CourseInfo Data { get; set; }
 
             [JsonProperty("message", NullValueHandling = NullValueHandling.Ignore)]
             public string Message { get; set; }
@@ -34,45 +35,63 @@ namespace NetWorkManage
         }
 
         /// <summary>
-        /// HomeInfo
+        /// CourseInfo
         /// </summary>
-        public partial class HomeInfo
+        public partial class CourseInfo
         {
-            [JsonProperty("adminIds", NullValueHandling = NullValueHandling.Ignore)]
-            public long[] AdminIds { get; set; }
+            [JsonProperty("commentCount", NullValueHandling = NullValueHandling.Ignore)]
+            public long? CommentCount { get; set; }
 
-            [JsonProperty("avatarUrl", NullValueHandling = NullValueHandling.Ignore)]
-            public string AvatarUrl { get; set; }
+            [JsonProperty("coverUrl", NullValueHandling = NullValueHandling.Ignore)]
+            public string CoverUrl { get; set; }
 
             [JsonProperty("createTime", NullValueHandling = NullValueHandling.Ignore)]
             public DateTimeOffset? CreateTime { get; set; }
 
-            [JsonProperty("createUserId", NullValueHandling = NullValueHandling.Ignore)]
-            public long? CreateUserId { get; set; }
-
             [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
             public string Description { get; set; }
+
+            [JsonProperty("endTime", NullValueHandling = NullValueHandling.Ignore)]
+            public DateTimeOffset? EndTime { get; set; }
 
             [JsonProperty("favCount", NullValueHandling = NullValueHandling.Ignore)]
             public long? FavCount { get; set; }
 
+            [JsonProperty("homeId", NullValueHandling = NullValueHandling.Ignore)]
+            public long? HomeId { get; set; }
+
             [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
             public long? Id { get; set; }
 
-            [JsonProperty("imageUrls", NullValueHandling = NullValueHandling.Ignore)]
-            public string[] ImageUrls { get; set; }
+            [JsonProperty("issueIds", NullValueHandling = NullValueHandling.Ignore)]
+            public long[] IssueIds { get; set; }
 
             [JsonProperty("likeCount", NullValueHandling = NullValueHandling.Ignore)]
             public long? LikeCount { get; set; }
-
-            [JsonProperty("memberIds", NullValueHandling = NullValueHandling.Ignore)]
-            public long[] MemberIds { get; set; }
 
             [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
             public string Name { get; set; }
 
             [JsonProperty("open", NullValueHandling = NullValueHandling.Ignore)]
             public bool? Open { get; set; }
+
+            [JsonProperty("score", NullValueHandling = NullValueHandling.Ignore)]
+            public double? Score { get; set; }
+
+            [JsonProperty("scoreCount", NullValueHandling = NullValueHandling.Ignore)]
+            public long? ScoreCount { get; set; }
+
+            [JsonProperty("startTime", NullValueHandling = NullValueHandling.Ignore)]
+            public DateTimeOffset? StartTime { get; set; }
+
+            [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
+            public string Status { get; set; }
+
+            [JsonProperty("studentIds", NullValueHandling = NullValueHandling.Ignore)]
+            public long[] StudentIds { get; set; }
+
+            [JsonProperty("teacherIds", NullValueHandling = NullValueHandling.Ignore)]
+            public long[] TeacherIds { get; set; }
 
             [JsonProperty("updateTime", NullValueHandling = NullValueHandling.Ignore)]
             public DateTimeOffset? UpdateTime { get; set; }
@@ -101,60 +120,23 @@ namespace NetWorkManage
             };
         }
 
-        public ResponseData myHome;
-
-        public Text m_name;
-        public Text m_creatorName;
-        public Text m_memberCount;
-        public Text m_isOpen;
-        public Text m_likeCount;
-        public Text m_favCount;
-
-        public void getHomeInfoRequest()
-        {
-            string requestData = RequestSender.getUrlParams(new Dictionary<string, string>{
-            {"homeId", MyUser_API.Instance.myUserData.Data.HomeId.ToString()}
-        });
-            RequestSender.Instance.SendGETRequest(requestData, requestUrl, (string responseContent) =>
-            {
-                MyDebug.Log(responseContent);
-                this.myHome = ResponseData.FromJson(responseContent);
-                if (this.myHome.Code != 200)
-                {
-                    MyDebug.LogError("Get HomeInfo failed!");
-                    return;
-                }
-                this.m_name.text += this.myHome.Data.Name;
-                if (this.myHome.Data.CreateUserId != null)
-                {
-                    this.getCreatorName((long)this.myHome.Data.CreateUserId);
-                }
-                this.m_memberCount.text += this.myHome.Data.MemberIds.Length.ToString();
-                if (this.myHome.Data.Open != null)
-                {
-                    this.m_isOpen.text += ((bool)this.myHome.Data.Open) ? "是" : "否";
-                }
-                this.m_likeCount.text += this.myHome.Data.LikeCount.ToString();
-                this.m_favCount.text += this.myHome.Data.FavCount.ToString();
-            });
-
-        }
-
-        public void getCreatorName(long id)
+        public static void getUserCourseInfoRequestInClassroom(long id, UserConnectInitate userConnectInitate)
         {
             string requestData = RequestSender.getUrlParams(new Dictionary<string, string>{
             {"userId", id.ToString()}
         });
-            RequestSender.Instance.SendGETRequest(requestData, MyUser_API.requestUrl, (string responseContent) =>
+            RequestSender.Instance.SendGETRequest(requestData, requestUrl, (string responseContent) =>
             {
                 MyDebug.Log(responseContent);
-                MyUser_API.ResponseData myCreator = MyUser_API.ResponseData.FromJson(responseContent);
-                if (myCreator.Code != 200)
+                ResponseData data = ResponseData.FromJson(responseContent);
+                if (data.Code != 200)
                 {
-                    MyDebug.LogError("Get HomeCreatorInfo failed!");
+                    MyDebug.LogError("Get UserCourseInfo failed!");
+                    return;
                 }
-                this.m_creatorName.text += myCreator.Data.Name;
+                userConnectInitate.userCourseResponseEvent?.Invoke(data);
             });
         }
+
     }
 }

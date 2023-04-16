@@ -24,7 +24,7 @@ namespace NetWorkManage
     public class MyHomeModel_API : MySingleton<MyHomeModel_API>
     {
 
-        public string requestUrl = RequestSender.url + "home-user/unity/";
+        public static string requestUrl = RequestSender.url + "home-user/unity/";
 
         public partial class ResponseData
         {

@@ -19,7 +19,7 @@ namespace NetWorkManage
     [RequireComponent(typeof(MyUser_API))]
     public class MyCharacterModel_API : MonoBehaviour
     {
-        public string requestUrl = RequestSender.url + "home-user/unity/";
+        public static string requestUrl = RequestSender.url + "home-user/unity/";
 
         public partial class ResponseData
         {
@@ -86,6 +86,24 @@ namespace NetWorkManage
                     return;
                 }
                 this.UpdateListVariable((int)this.myModelData.Data);
+            });
+        }
+
+        public static void getUserModelIdRequestInClassroom(long id, UserConnectInitate userConnectInitate)
+        {
+            string requestData = RequestSender.getUrlParams(new Dictionary<string, string>{
+            {"id", id.ToString()}
+        });
+            RequestSender.Instance.SendGETRequest(requestData, requestUrl + "model", (string responseContent) =>
+            {
+                MyDebug.Log(responseContent);
+                ResponseData data = ResponseData.FromJson(responseContent);
+                if (data.Code != 200)
+                {
+                    MyDebug.LogError("Get UserInfo failed!");
+                    return;
+                }
+                userConnectInitate.userModelResponseEvent?.Invoke(data);
             });
         }
 
