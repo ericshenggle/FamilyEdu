@@ -8,13 +8,14 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using MyTools;
 using System.Linq;
+using Classroom;
 
 namespace NetWorkManage
 {
 
     public class MyUserCourse_API : MonoBehaviour
     {
-        public static string requestUrl = RequestSender.url + "home-course/course/info/user";
+        public static string requestUrl = RequestSender.url + "home-course/course/now";
 
         /// <summary>
         /// ResponseWrapperCourseInfo
@@ -25,7 +26,7 @@ namespace NetWorkManage
             public long? Code { get; set; }
 
             [JsonProperty("data", NullValueHandling = NullValueHandling.Ignore)]
-            public CourseInfo Data { get; set; }
+            public CourseInfo[] Data { get; set; }
 
             [JsonProperty("message", NullValueHandling = NullValueHandling.Ignore)]
             public string Message { get; set; }
@@ -52,7 +53,7 @@ namespace NetWorkManage
             public string Description { get; set; }
 
             [JsonProperty("endTime", NullValueHandling = NullValueHandling.Ignore)]
-            public DateTimeOffset? EndTime { get; set; }
+            public string EndTime { get; set; }
 
             [JsonProperty("favCount", NullValueHandling = NullValueHandling.Ignore)]
             public long? FavCount { get; set; }
@@ -82,7 +83,7 @@ namespace NetWorkManage
             public long? ScoreCount { get; set; }
 
             [JsonProperty("startTime", NullValueHandling = NullValueHandling.Ignore)]
-            public DateTimeOffset? StartTime { get; set; }
+            public string StartTime { get; set; }
 
             [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
             public string Status { get; set; }

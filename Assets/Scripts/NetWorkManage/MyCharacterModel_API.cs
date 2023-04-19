@@ -6,13 +6,13 @@ using GameCreator.Core;
 using GameCreator.Variables;
 using MyTools;
 using NetWorkManage;
-using UnityEditor.Events;
 using UnityEngine;
 using UnityEngine.Events;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Globalization;
+using Classroom;
 
 namespace NetWorkManage
 {
@@ -136,7 +136,7 @@ namespace NetWorkManage
             {"id", MyUser_API.Instance.myUserData.Data.Id.ToString()},
             {"modelId", index.ToString()},
         });
-            RequestSender.Instance.SendGETRequest(requestData, requestUrl + "update/model", (string responseContent) =>
+            RequestSender.Instance.SendPostRequest(requestData, requestUrl + "update/model", (string responseContent) =>
             {
                 MyDebug.Log(responseContent);
                 this.myModelData = ResponseData.FromJson(responseContent);
@@ -245,7 +245,7 @@ namespace NetWorkManage
                     }
                     break;
             }
-            if (index > t_characterModels.Count)
+            if (index >= t_characterModels.Count)
             {
                 index = 0;
                 this.updateUserModelIdRequest(index);

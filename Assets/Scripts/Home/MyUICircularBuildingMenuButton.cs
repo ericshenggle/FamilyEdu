@@ -10,7 +10,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace MyTools.CircularBuildingMenu
+namespace Home
 {
     public class MyUICircularBuildingMenuButton : MonoBehaviour, IPointerClickHandler
     {

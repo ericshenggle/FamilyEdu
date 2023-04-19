@@ -39,7 +39,7 @@ namespace NJG.PUN.UI
         public InputField input;
 #endif
         public Button m_Submitt;
-        
+
         public Image background;
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace NJG.PUN.UI
         /// <summary>
         /// Maximum number of lines kept in the chat window before they start getting removed.
         /// </summary>
-        [Header("UI Settings")] 
+        [Header("UI Settings")]
         public int maxLines = 1000;
 
         public int minVisibleLines = 3;
@@ -75,7 +75,7 @@ namespace NJG.PUN.UI
         /// Whether the activate the chat input when Return key gets pressed.
         /// </summary>
         public bool activateOnReturnKey = true;
-        
+
         [VariableFilter(Variable.DataType.Number)]
         public VariableProperty unseenMessages = new VariableProperty();
 
@@ -133,9 +133,9 @@ namespace NJG.PUN.UI
             originalBgColor = background.color;
             fadedOutBgColor = background.color;
             scrollBarCanvas = container.verticalScrollbar.GetComponent<CanvasGroup>();
-            if(!scrollBarCanvas)scrollBarCanvas = container.verticalScrollbar.gameObject.AddComponent<CanvasGroup>();
-            
-            if(allowChatFading)
+            if (!scrollBarCanvas) scrollBarCanvas = container.verticalScrollbar.gameObject.AddComponent<CanvasGroup>();
+
+            if (allowChatFading)
             {
                 fadedOutBgColor.a = 0;
                 background.color = fadedOutBgColor;
@@ -152,26 +152,30 @@ namespace NJG.PUN.UI
 #else
                 var eventTrigger = input.GetComponent<EventTrigger>();
                 if (!eventTrigger) eventTrigger = input.gameObject.AddComponent<EventTrigger>();
-                
+
                 var onSel = new EventTrigger.Entry();
                 onSel.callback.AddListener(e => Select());
                 onSel.eventID = EventTriggerType.Select;
                 eventTrigger.triggers.Add(onSel);
-                
+
                 var onUnsel = new EventTrigger.Entry();
                 onUnsel.callback.AddListener(e => Deselect());
                 onUnsel.eventID = EventTriggerType.Deselect;
                 eventTrigger.triggers.Add(onUnsel);
-                
-                #endif
-                
+
+#endif
+
                 input.onValueChanged.AddListener(OnValueChanged);
+                input.onEndEdit.AddListener(OnSubmitInternal);
+            }
+            if (m_Submitt != null)
+            {
                 m_Submitt.onClick.AddListener(OnSubmitInternal);
             }
-            
+
             var eventTrigger2 = container.GetComponent<EventTrigger>();
             if (!eventTrigger2) eventTrigger2 = container.gameObject.AddComponent<EventTrigger>();
-                
+
             var onHover = new EventTrigger.Entry();
             onHover.callback.AddListener(e =>
             {
@@ -180,7 +184,7 @@ namespace NJG.PUN.UI
             });
             onHover.eventID = EventTriggerType.PointerEnter;
             eventTrigger2.triggers.Add(onHover);
-                
+
             var onExit = new EventTrigger.Entry();
             onExit.callback.AddListener(e =>
             {
@@ -189,10 +193,10 @@ namespace NJG.PUN.UI
             });
             onExit.eventID = EventTriggerType.PointerExit;
             eventTrigger2.triggers.Add(onExit);
-            
+
             var eventTrigger3 = input.GetComponent<EventTrigger>();
             if (!eventTrigger3) eventTrigger3 = input.gameObject.AddComponent<EventTrigger>();
-                
+
             var onHover2 = new EventTrigger.Entry();
             onHover2.callback.AddListener(e =>
             {
@@ -201,7 +205,7 @@ namespace NJG.PUN.UI
             });
             onHover2.eventID = EventTriggerType.PointerEnter;
             eventTrigger3.triggers.Add(onHover2);
-                
+
             var onExit2 = new EventTrigger.Entry();
             onExit2.callback.AddListener(e =>
             {
@@ -221,13 +225,17 @@ namespace NJG.PUN.UI
                 input.onDeselect.RemoveListener(s => Deselect());
 #endif
                 input.onValueChanged.RemoveListener(OnValueChanged);
+                input.onEndEdit.RemoveListener(OnSubmitInternal);
+            }
+            if (m_Submitt != null)
+            {
                 m_Submitt.onClick.RemoveListener(OnSubmitInternal);
             }
         }
 
         private void OnValueChanged(string input)
         {
-            if (disablePlayerWhenTyping && 
+            if (disablePlayerWhenTyping &&
                 !string.IsNullOrEmpty(input) &&
                 HookPlayer.Instance &&
                 HookPlayer.Instance.Get<PlayerCharacter>().IsControllable())
@@ -248,7 +256,7 @@ namespace NJG.PUN.UI
             onOpen?.Invoke();
 
             PlayerCharacter pl = HookPlayer.Instance ? HookPlayer.Instance.Get<PlayerCharacter>() : null;
-            
+
             if (disablePlayerWhenTyping && pl && pl.IsControllable())
             {
                 wasPlayerControllable = pl.IsControllable();
@@ -260,13 +268,13 @@ namespace NJG.PUN.UI
 
         public void Deselect()
         {
-            if(overInput || overContainer) return;
-            
+            if (overInput || overContainer) return;
+
             // Debug.LogWarning("Deselect");
 
             selected = false;
             onClose.Invoke();
-            
+
             PlayerCharacter pl = HookPlayer.Instance ? HookPlayer.Instance.Get<PlayerCharacter>() : null;
 
             if (disablePlayerWhenTyping && pl && !pl.IsControllable() && wasPlayerControllable)
@@ -275,10 +283,11 @@ namespace NJG.PUN.UI
             }
         }
 
+
         /// <summary>
         /// Handle inputfield onEndEdit event.
         /// </summary>
-        public void OnSubmitInternal()
+        public void OnSubmitInternal(string content)
         {
             /*if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
             {
@@ -311,8 +320,10 @@ namespace NJG.PUN.UI
                     // if (placeholder) placeholder.SetActive(true);
                 }
             }*/
+            if (!(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))) {
+                return;
+            }
             mIgnoreNextEnter = true;
-            string content = input.text;
             input.text = string.Empty;
             if (!string.IsNullOrWhiteSpace(content)) OnSubmit(content);
 
@@ -324,6 +335,19 @@ namespace NJG.PUN.UI
             {
                 HookPlayer.Instance.Get<PlayerCharacter>().characterLocomotion.SetIsControllable(true);
             }*/
+        }
+
+        /// <summary>
+        /// Handle inputfield onEndEdit event.
+        /// </summary>
+        public void OnSubmitInternal()
+        {
+            string content = input.text;
+            input.text = string.Empty;
+            if (!string.IsNullOrWhiteSpace(content)) OnSubmit(content);
+
+            input.DeactivateInputField();
+            if (!EventSystem.current.alreadySelecting) EventSystem.current.SetSelectedGameObject(null, null);
         }
 
         private IEnumerator SetInputFieldNotInteractableAtEndOfFrame()
@@ -455,8 +479,8 @@ namespace NJG.PUN.UI
 
                 mIgnoreNextEnter = false;
             }
-            
-            if(allowChatFading)
+
+            if (allowChatFading)
             {
                 float uiAlpha = 0;
 

@@ -16,7 +16,7 @@ using EasyBuildSystem.Features.Runtime.Extensions;
 using EasyBuildSystem.Features.Runtime.Buildings.Placer.InputHandler;
 using EasyBuildSystem.Features.Runtime.Buildings.Placer;
 
-namespace MyTools.InputHandler
+namespace Home
 {
     public class MyStandaloneInputHandler : BaseInputHandler
     {

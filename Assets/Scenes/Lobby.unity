@@ -1056,7 +1056,7 @@ GameObject:
   - component: {fileID: 121608726}
   - component: {fileID: 121608731}
   - component: {fileID: 121608730}
-  - component: {fileID: 121608732}
+  - component: {fileID: 121608733}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -1082,7 +1082,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 132, y: -3}
+  m_AnchoredPosition: {x: 250, y: -80}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &121608718
@@ -1199,7 +1199,7 @@ MonoBehaviour:
   - {fileID: 121608725}
   - {fileID: 121608724}
   - {fileID: 121608726}
-  - {fileID: 121608732}
+  - {fileID: 121608733}
   executingIndex: -1
   isExecuting: 0
 --- !u!114 &121608722
@@ -1440,7 +1440,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   active: 0
---- !u!114 &121608732
+--- !u!114 &121608733
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1449,7 +1449,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 121608715}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76446f70339804b6b8706a897e1a1222, type: 3}
+  m_Script: {fileID: 11500000, guid: 48b7253427bf7432f9db7c4eb2871aca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isExpanded: 1
@@ -2528,7 +2528,7 @@ GameObject:
   - component: {fileID: 224221360}
   - component: {fileID: 224221364}
   - component: {fileID: 224221362}
-  - component: {fileID: 224221365}
+  - component: {fileID: 224221366}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -2554,7 +2554,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 132, y: -3}
+  m_AnchoredPosition: {x: 250, y: -80}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &224221349
@@ -2702,7 +2702,7 @@ MonoBehaviour:
   - {fileID: 224221358}
   - {fileID: 224221350}
   - {fileID: 224221360}
-  - {fileID: 224221365}
+  - {fileID: 224221366}
   executingIndex: -1
   isExecuting: 0
 --- !u!114 &224221354
@@ -2912,7 +2912,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   active: 0
---- !u!114 &224221365
+--- !u!114 &224221366
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2921,7 +2921,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 224221346}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76446f70339804b6b8706a897e1a1222, type: 3}
+  m_Script: {fileID: 11500000, guid: 48b7253427bf7432f9db7c4eb2871aca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isExpanded: 1
@@ -18709,7 +18709,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 132, y: -3}
+  m_AnchoredPosition: {x: 250, y: -80}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1768971393

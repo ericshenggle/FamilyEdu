@@ -17,6 +17,8 @@ namespace MyTools
         private bool isMenuOpen = false;
         private bool isGamePaused = false;
 
+        private bool currentReposition = true;
+
         void Awake()
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -85,15 +87,38 @@ namespace MyTools
 
         public void fixAdventureMotor(bool status)
         {
-            if (this.cameraController != null && this.cameraController.currentCameraMotor.cameraMotorType.GetType() == typeof(CameraMotorTypeAdventure))
+            if (cameraController != null && cameraController.currentCameraMotor.cameraMotorType.GetType() == typeof(CameraMotorTypeAdventure))
             {
-                CameraMotorTypeAdventure adventureMotor = (CameraMotorTypeAdventure)this.cameraController.currentCameraMotor.cameraMotorType;
+                CameraMotorTypeAdventure adventureMotor = (CameraMotorTypeAdventure)cameraController.currentCameraMotor.cameraMotorType;
                 adventureMotor.allowOrbitInput = status;
                 adventureMotor.allowZoom = status;
-                adventureMotor.autoRepositionBehind = status;
+                if (currentReposition)
+                {
+                    adventureMotor.autoRepositionBehind = status;
+                }
             }
-
         }
+
+        public void DisableRespositionBehind()
+        {
+            this.currentReposition = false;
+            if (cameraController != null && cameraController.currentCameraMotor.cameraMotorType.GetType() == typeof(CameraMotorTypeAdventure))
+            {
+                CameraMotorTypeAdventure adventureMotor = (CameraMotorTypeAdventure)cameraController.currentCameraMotor.cameraMotorType;
+                adventureMotor.autoRepositionBehind = false;
+            }
+        }
+
+        public void EnableRespositionBehind()
+        {
+            this.currentReposition = true;
+            if (cameraController != null && cameraController.currentCameraMotor.cameraMotorType.GetType() == typeof(CameraMotorTypeAdventure))
+            {
+                CameraMotorTypeAdventure adventureMotor = (CameraMotorTypeAdventure)cameraController.currentCameraMotor.cameraMotorType;
+                adventureMotor.autoRepositionBehind = true;
+            }
+        }
+
 
         public void setAdventureMotorTargetOffset(Vector3 offset)
         {

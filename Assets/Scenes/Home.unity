@@ -19502,8 +19502,8 @@ MonoBehaviour:
   events:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: NetWorkManage.MyModel_API, Assembly-CSharp
+      - m_Target: {fileID: 280735335}
+        m_TargetAssemblyTypeName: NetWorkManage.MyCharacterModel_API, Assembly-CSharp
         m_MethodName: updateUserModelIdRequest
         m_Mode: 1
         m_Arguments:
@@ -24961,7 +24961,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 132, y: -3}
+  m_AnchoredPosition: {x: 250, y: -80}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8345751270650890594
@@ -25022,7 +25022,7 @@ GameObject:
   - component: {fileID: 8345751270650890619}
   - component: {fileID: 8345751270650890628}
   - component: {fileID: 8345751270650890627}
-  - component: {fileID: 8345751270650890629}
+  - component: {fileID: 8345751270650890630}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -25146,7 +25146,7 @@ MonoBehaviour:
   - {fileID: 8345751270650890616}
   - {fileID: 8345751270650890617}
   - {fileID: 8345751270650890619}
-  - {fileID: 8345751270650890629}
+  - {fileID: 8345751270650890630}
   executingIndex: -1
   isExecuting: 0
 --- !u!114 &8345751270650890621
@@ -25347,7 +25347,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   active: 0
---- !u!114 &8345751270650890629
+--- !u!114 &8345751270650890630
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -25356,10 +25356,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8345751270650890598}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76446f70339804b6b8706a897e1a1222, type: 3}
+  m_Script: {fileID: 11500000, guid: 48b7253427bf7432f9db7c4eb2871aca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isExpanded: 1
+  isExpanded: 0
   sceneName:
     optionIndex: 0
     value: Lobby

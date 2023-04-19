@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEditor;
 using EasyBuildSystem.Features.Editor.Window;
 
-namespace MyTools.InputHandler.Editor
+namespace Home.Editor
 {
     [CustomEditor(typeof(MyStandaloneInputHandler), true)]
     public class MyStandaloneInputHandlerEditor : UnityEditor.Editor

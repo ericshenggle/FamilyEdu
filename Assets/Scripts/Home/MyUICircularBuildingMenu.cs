@@ -20,7 +20,7 @@ using EasyBuildSystem.Features.Runtime.Buildings.Placer;
 using EasyBuildSystem.Features.Runtime.Buildings.Manager;
 using EasyBuildSystem.Features.Runtime.Buildings.Part;
 
-namespace MyTools.CircularBuildingMenu
+namespace Home
 {
     public class MyUICircularBuildingMenu : Singleton<MyUICircularBuildingMenu>
     {
@@ -443,9 +443,9 @@ namespace MyTools.CircularBuildingMenu
 
                 if (m_Categories[i].ContentTransform != null)
                 {
-                    m_Categories[i].InstancedButtons = new List<UICircularBuildingMenuButton>();
+                    m_Categories[i].InstancedButtons = new List<MyUICircularBuildingMenuButton>();
 
-                    UICircularBuildingMenuButton[] cacheButtons = m_Categories[i].ContentTransform.GetComponentsInChildren<UICircularBuildingMenuButton>(true);
+                    MyUICircularBuildingMenuButton[] cacheButtons = m_Categories[i].ContentTransform.GetComponentsInChildren<MyUICircularBuildingMenuButton>(true);
 
                     for (int y = 0; y < cacheButtons.Length; y++)
                     {
@@ -469,7 +469,7 @@ namespace MyTools.CircularBuildingMenu
                     //    m_Categories[i].InstancedButtons.Add(buttonInstance);
                     //}
 
-                    m_Categories[i].InstancedButtons = m_Categories[i].ContentTransform.GetComponentsInChildren<UICircularBuildingMenuButton>(true).ToList();
+                    m_Categories[i].InstancedButtons = m_Categories[i].ContentTransform.GetComponentsInChildren<MyUICircularBuildingMenuButton>(true).ToList();
                 }
 
                 m_Categories[i].ContentTransform.transform.localPosition = Vector3.zero;

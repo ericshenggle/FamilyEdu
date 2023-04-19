@@ -19,7 +19,7 @@ using EasyBuildSystem.Features.Runtime.Buildings.Manager;
 using EasyBuildSystem.Features.Editor.Extensions;
 using EasyBuildSystem.Features.Editor.Extensions.ReorderableList;
 
-namespace MyTools.CircularBuildingMenu.Editor
+namespace Home.Editor
 {
     [CustomEditor(typeof(MyUICircularBuildingMenu))]
     public class MyUICircularBuildingMenuEditor : UnityEditor.Editor
