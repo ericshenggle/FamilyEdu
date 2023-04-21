@@ -29,6 +29,7 @@ namespace Classroom
 
         public LocalVariables localPlayerVariables;
         public MyMouseLock myMouseLock;
+        public ListVariables m_characterModels;
 
         #region PRIVATE PROPERTY
 
@@ -42,10 +43,10 @@ namespace Classroom
         private string userPrebName;
         private bool isChild;
 
-        [SerializeField] private List<string> m_ManModels = new List<string> { "Player MAN 1", "Player MAN 2", "Player MAN 3", "Player MAN 4", "Player MAN 5" };
-        [SerializeField] private List<string> m_WomanModels = new List<string> { "Player WOMAN 1", "Player WOMAN 2", "Player WOMAN 3", "Player WOMAN 4", "Player WOMAN 5" };
-        [SerializeField] private List<string> m_BoyModels = new List<string> { "Player BOY 1", "Player BOY 2", "Player BOY 3", "Player BOY 4", "Player BOY 5" };
-        [SerializeField] private List<string> m_GirlModels = new List<string> { "Player GIRL 1", "Player GIRL 1" };
+        [SerializeField] public List<GameObject> m_ManModels = new List<GameObject>();
+        [SerializeField] public List<GameObject> m_WomanModels = new List<GameObject>();
+        [SerializeField] public List<GameObject> m_BoyModels = new List<GameObject>();
+        [SerializeField] public List<GameObject> m_GirlModels = new List<GameObject>();
 
         public UnityEvent<MyUser_API.ResponseData> userResponseEvent = new UnityEvent<MyUser_API.ResponseData>();
         public UnityEvent<MyUserCourse_API.ResponseData> userCourseResponseEvent = new UnityEvent<MyUserCourse_API.ResponseData>();
@@ -145,7 +146,6 @@ namespace Classroom
                 if (!userModelProperty && myUserData != null && myUserModelData != null)
                 {
                     chooseModel(myUserData, (int)myUserModelData.Data);
-                    localPlayerVariables.Get("userPrebName").Update(userPrebName);
                     localPlayerVariables.Get("isChild").Update(isChild);
                     userModelProperty = true;
                     MyDebug.Log("Update UserModelProperty!");
@@ -155,7 +155,7 @@ namespace Classroom
 
         public void chooseModel(MyUser_API.ResponseData userInfo, int index)
         {
-            List<string> t_characterModels = new List<string>();
+            List<GameObject> t_characterModels = new List<GameObject>();
             isChild = true;
 
             switch (userInfo.Data.Sex)
@@ -165,7 +165,7 @@ namespace Classroom
                         userInfo.Data.RelativeType == MyUser_API.RelativeType.Grandfather ||
                         userInfo.Data.RelativeType == MyUser_API.RelativeType.Uncle || userInfo.Data.Age > 18)
                     {
-                        foreach (string m in m_ManModels)
+                        foreach (GameObject m in m_ManModels)
                         {
                             t_characterModels.Add(m);
                         }
@@ -174,18 +174,18 @@ namespace Classroom
                     else if (userInfo.Data.RelativeType == MyUser_API.RelativeType.Brother ||
                             userInfo.Data.RelativeType == MyUser_API.RelativeType.Son || userInfo.Data.Age <= 18)
                     {
-                        foreach (string m in m_BoyModels)
+                        foreach (GameObject m in m_BoyModels)
                         {
                             t_characterModels.Add(m);
                         }
                     }
                     else
                     {
-                        foreach (string m in m_ManModels)
+                        foreach (GameObject m in m_ManModels)
                         {
                             t_characterModels.Add(m);
                         }
-                        foreach (string m in m_BoyModels)
+                        foreach (GameObject m in m_BoyModels)
                         {
                             t_characterModels.Add(m);
                         }
@@ -196,7 +196,7 @@ namespace Classroom
                             userInfo.Data.RelativeType == MyUser_API.RelativeType.Grandmother ||
                             userInfo.Data.RelativeType == MyUser_API.RelativeType.Aunt || userInfo.Data.Age > 18)
                     {
-                        foreach (string m in m_WomanModels)
+                        foreach (GameObject m in m_WomanModels)
                         {
                             t_characterModels.Add(m);
                         }
@@ -205,18 +205,18 @@ namespace Classroom
                     else if (userInfo.Data.RelativeType == MyUser_API.RelativeType.Daughter ||
                             userInfo.Data.RelativeType == MyUser_API.RelativeType.Sister || userInfo.Data.Age <= 18)
                     {
-                        foreach (string m in m_GirlModels)
+                        foreach (GameObject m in m_GirlModels)
                         {
                             t_characterModels.Add(m);
                         }
                     }
                     else
                     {
-                        foreach (string m in m_WomanModels)
+                        foreach (GameObject m in m_WomanModels)
                         {
                             t_characterModels.Add(m);
                         }
-                        foreach (string m in m_GirlModels)
+                        foreach (GameObject m in m_GirlModels)
                         {
                             t_characterModels.Add(m);
                         }
@@ -225,23 +225,23 @@ namespace Classroom
                 default:
                     if (userInfo.Data.Age <= 18)
                     {
-                        foreach (string m in m_BoyModels)
+                        foreach (GameObject m in m_BoyModels)
                         {
                             t_characterModels.Add(m);
                         }
-                        foreach (string m in m_GirlModels)
+                        foreach (GameObject m in m_GirlModels)
                         {
                             t_characterModels.Add(m);
                         }
                     }
                     else
                     {
-                        foreach (string m in m_ManModels)
+                        foreach (GameObject m in m_ManModels)
                         {
                             t_characterModels.Add(m);
                         }
 
-                        foreach (string m in m_WomanModels)
+                        foreach (GameObject m in m_WomanModels)
                         {
                             t_characterModels.Add(m);
                         }
@@ -253,7 +253,18 @@ namespace Classroom
             {
                 index = 0;
             }
-            userPrebName = t_characterModels[index];
+            if (m_characterModels != null)
+            {
+                for (int i = m_characterModels.variables.Count - 1; i >= 0; --i)
+                {
+                    m_characterModels.Remove(i);
+                }
+                foreach (GameObject m in t_characterModels)
+                {
+                    m_characterModels.Push(m);
+                }
+                m_characterModels.SetInterator(index);
+            }
         }
 
         public void UpdateUserData(MyUser_API.ResponseData userInfo)

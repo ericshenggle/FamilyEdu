@@ -35,18 +35,22 @@ namespace LoginLoading
                 childLogin.SetActive(false);
                 childRegister.SetActive(false);
             }
-            else if (m_register && !childLogin.activeSelf)
+            else if (!m_login)
             {
-                childStart.SetActive(false);
-                childLogin.SetActive(true);
-                childRegister.SetActive(false);
+                if (m_register && !childLogin.activeSelf)
+                {
+                    childStart.SetActive(false);
+                    childLogin.SetActive(true);
+                    childRegister.SetActive(false);
+                }
+                else if (!m_register && !childRegister.activeSelf)
+                {
+                    childStart.SetActive(false);
+                    childLogin.SetActive(false);
+                    childRegister.SetActive(true);
+                }
             }
-            else if (!m_register && !childRegister.activeSelf)
-            {
-                childStart.SetActive(false);
-                childLogin.SetActive(false);
-                childRegister.SetActive(true);
-            }
+
         }
     }
 

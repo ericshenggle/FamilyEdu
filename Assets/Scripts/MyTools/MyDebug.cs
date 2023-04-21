@@ -20,7 +20,7 @@ namespace MyTools
      }
  
      public static void LogError(object message, UnityEngine.Object obj = null) {
-         UnityEngine.Debug.LogError(message, obj);
+         UnityEngine.Debug.LogWarning(message, obj);
      }
  }
 }

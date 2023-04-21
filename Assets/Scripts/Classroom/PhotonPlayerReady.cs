@@ -20,7 +20,6 @@ namespace Classroom
         public Text m_text;
         private int playerCount;
         private bool isInControlling;
-
         void OnEnable()
         {
             if (localPlayerVariables != null)
@@ -28,6 +27,14 @@ namespace Classroom
                 playerCount = Mathf.FloorToInt(localPlayerVariables.Get("MaxPlayer").Get<float>());
                 MyDebug.Log(playerCount);
             }
+            isInControlling = false;
+            m_text.text = "请等待参与当前课程所有人入会";
+        }
+
+        void OnDisable()
+        {
+            isInControlling = false;
+            m_text.text = "请等待参与当前课程所有人入会";
         }
 
         // Update is called once per frame
@@ -60,8 +67,6 @@ namespace Classroom
                 int t_count = players.Length;
                 if (t_count != 0 && t_count < playerCount)
                 {
-                    isInControlling = false;
-                    m_text.text = "请等待参与当前课程所有人入会";
                     PhotonNetwork.Disconnect();
                 }
             }

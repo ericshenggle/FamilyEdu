@@ -229,12 +229,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 4087978186785821283}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a36bfe99b12b947f4be50ed813116e88, type: 3}
+  m_Script: {fileID: 11500000, guid: 2052f8fea31064753a531c6db10dc29a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UIBuildingThumbnail: {fileID: 5247637443617391346}
-  m_UIBuildingText: {fileID: 8696822393517945273}
-  m_UIBuildingButton: {fileID: 280344583625999931}
+  m_UIIconImage: {fileID: 5247637443617391346}
+  m_UIText: 
+  m_UIDescriptionText: 
+  m_Action:
+    m_PersistentCalls:
+      m_Calls: []
+  m_BuildingPart: {fileID: 0}
 --- !u!1 &8201920686318323083
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,23 +35,27 @@ namespace MyTools.Actions
         public override IEnumerator Execute(GameObject target, IAction[] actions, int index)
         {
             loadScreen.SetActive(true);
-            if (player) {
+            if (player)
+            {
                 PlayerCharacter.ON_LOAD_SCENE_DATA = new Character.OnLoadSceneData(
                 this.playerPosition,
                 this.playerRotation
             );
             }
-
+            if (withBuildingSaver && upload)
+            {
+                MyHomeModel_API.Instance.updateUserModelTextRequest();
+            }
+            else if (withBuildingSaver)
+            {
+                MyHomeModel_API.Instance.getUserModelTextRequest();
+            }
+            yield return new WaitForSeconds(2f);
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(
                 this.sceneName.GetValue(target),
                 this.mode
             );
-            if (withBuildingSaver && upload) {
-                MyHomeModel_API.Instance.updateUserModelTextRequest();
-            } else if (withBuildingSaver) {
-                MyHomeModel_API.Instance.getUserModelTextRequest();
-            }
-
+            
             asyncOperation.allowSceneActivation = false;
 
             while (!asyncOperation.isDone)
@@ -69,7 +73,9 @@ namespace MyTools.Actions
                         (!upload && MyHomeModel_API.Instance.isCompletedDownLoad)))
                     {
                         asyncOperation.allowSceneActivation = true;
-                    } else if (!withBuildingSaver) {
+                    }
+                    else if (!withBuildingSaver)
+                    {
                         asyncOperation.allowSceneActivation = true;
                     }
 

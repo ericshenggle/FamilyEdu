@@ -108,7 +108,7 @@ namespace NetWorkManage
         public void getUserModelTextRequest()
         {
             string requestData = RequestSender.getUrlParams(new Dictionary<string, string>{
-            {"id", MyUser_API.Instance.myUserData.Data.Id.ToString()}
+            {"id", RequestSender.Instance.UserId.ToString()}
         });
             RequestSender.Instance.SendGETRequest(requestData, requestUrl + "text", (string responseContent) =>
             {
@@ -128,7 +128,7 @@ namespace NetWorkManage
         {
             StartCoroutine(readTextInSaver());
             string requestData = RequestSender.getUrlParams(new Dictionary<string, string>{
-            {"id", MyUser_API.Instance.myUserData.Data.Id.ToString()},
+            {"id", RequestSender.Instance.UserId.ToString()},
             {"text", UnityWebRequest.EscapeURL(this.text)}
         });
             RequestSender.Instance.SendPostRequest(requestData, requestUrl + "update/text", (string responseContent) =>

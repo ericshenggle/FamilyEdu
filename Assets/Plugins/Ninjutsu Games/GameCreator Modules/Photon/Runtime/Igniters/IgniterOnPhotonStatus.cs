@@ -16,6 +16,7 @@
         private Photon.Realtime.ClientState lastState;
 
         public VariableProperty stateVariable = new VariableProperty();
+        public bool useChinese;
         //public string localVariableName = "status";
         //private LocalVariables vars;
 
@@ -29,18 +30,18 @@
 
         private void Update()
         {
-            if(lastState != PhotonNetwork.NetworkClientState)
+            if (lastState != PhotonNetwork.NetworkClientState)
             {
                 lastState = PhotonNetwork.NetworkClientState;
                 if (stateVariable != null)
                 {
-                    if(stateVariable.variableType == VariableProperty.GetVarType.LocalVariable)
+                    if (stateVariable.variableType == VariableProperty.GetVarType.LocalVariable)
                     {
-                        stateVariable.local.Set(lastState.ToString(), gameObject);
+                        stateVariable.local.Set(useChinese ? ToChineseString() : lastState.ToString(), gameObject);
                     }
                     else
                     {
-                        stateVariable.global.Set(lastState.ToString(), gameObject);
+                        stateVariable.global.Set(useChinese ? ToChineseString() : lastState.ToString(), gameObject);
                     }
                     //variable.ToStringValue(gameObject)
                     //Variable var = vars.Get(localVariableName);
@@ -48,6 +49,43 @@
                 }
                 ExecuteTrigger(gameObject);
             }
+        }
+
+        private string ToChineseString()
+        {
+            string cacheString = "";
+            switch (lastState)
+            {
+                case Photon.Realtime.ClientState.Disconnected:
+                    cacheString = "未连接到Photon服务器";
+                    break;
+                case Photon.Realtime.ClientState.Disconnecting:
+                    cacheString = "正在脱离Photon服务器";
+                    break;
+                case Photon.Realtime.ClientState.ConnectedToMasterServer:
+                    cacheString = "已连接到Photon服务器";
+                    break;
+                case Photon.Realtime.ClientState.ConnectedToGameServer:
+                    cacheString = "已连接到多人在线服务器";
+                    break;
+                case Photon.Realtime.ClientState.ConnectingToGameServer:
+                    cacheString = "正在连接到多人在线服务器";
+                    break;
+                case Photon.Realtime.ClientState.ConnectingToMasterServer:
+                    cacheString = "正在连接到Photon服务器";
+                    break;
+                case Photon.Realtime.ClientState.Joining:
+                    cacheString = "正在连接多人房间";
+                    break;
+                case Photon.Realtime.ClientState.Joined:
+                    cacheString = "已连接多人房间";
+                    break;
+
+                default:
+                    break;
+            }
+
+            return cacheString;
         }
     }
 }

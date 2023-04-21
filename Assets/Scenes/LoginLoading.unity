@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731689, g: 0.13414702, b: 0.1210784, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4769,6 +4769,7 @@ GameObject:
   - component: {fileID: 1232807659}
   - component: {fileID: 1232807658}
   - component: {fileID: 1232807657}
+  - component: {fileID: 1232807664}
   m_Layer: 0
   m_Name: ToLogin
   m_TagString: Untagged
@@ -4935,6 +4936,7 @@ MonoBehaviour:
   actions:
   - {fileID: 1232807657}
   - {fileID: 1232807658}
+  - {fileID: 1232807664}
   executingIndex: -1
   isExecuting: 0
 --- !u!114 &1232807661
@@ -4995,6 +4997,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1232807655}
   m_CullTransparentMesh: 1
+--- !u!114 &1232807664
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232807655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d234afa27d82846abbf91e13c4f5eedf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isExpanded: 1
+  valueFrom: 2
+  global:
+    allowTypesMask: -1
+    name: 
+  local:
+    allowTypesMask: -1
+    name: 
+    targetType: 2
+    targetObject: {fileID: 0}
+  list:
+    targetType: 3
+    targetObject: {fileID: 0}
+    select: 1
+    index: 0
+  variable:
+    variableType: 1
+    global:
+      allowTypesMask: 8
+      name: 
+    local:
+      allowTypesMask: 8
+      name: isAlreadyRegister
+      targetType: 2
+      targetObject: {fileID: 1138877332}
+    list:
+      targetType: 3
+      targetObject: {fileID: 0}
+      select: 1
+      index: 0
+  value: 1
 --- !u!1 &1288780610
 GameObject:
   m_ObjectHideFlags: 0
