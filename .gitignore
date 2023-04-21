@@ -4,8 +4,11 @@
 [Bb]uild/
 [Bb]uilds/
 [Ll]ogs/
-[Aa]ssets/Plugins/C*
+[Aa]ssets/Plugins/Cr*
 [Aa]ssets/Plugins/G*
+[Aa]ssets/Plugins/chatGPTAIGirlFriendSample-baidu/**/*
+!/[Aa]ssets/Plugins/chatGPTAIGirlFriendSample-baidu/**/
+!/[Aa]ssets/Plugins/chatGPTAIGirlFriendSample-baidu/**/*.cs
 [Aa]ssets/Plugins/Ninjutsu Games/**/*
 ![Aa]ssets/Plugins/Ninjutsu Games/**/
 ![Aa]ssets/Plugins/Ninjutsu Games/**/*.cs
