@@ -216,6 +216,7 @@ namespace Classroom.PUN.UI
         {
             if (photonEvent.Code == chatEventCode)
             {
+                MyDebug.Log(photonEvent.Sender);
                 Player player = PhotonNetwork.CurrentRoom.GetPlayer(photonEvent.Sender);
                 if (player == null) return;
                 Color color = playerColor;

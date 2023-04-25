@@ -6,23 +6,23 @@
 [Ll]ogs/
 [Aa]ssets/Plugins/Cr*
 [Aa]ssets/Plugins/G*
-[Aa]ssets/Plugins/chatGPTAIGirlFriendSample-baidu/**/*
-!/[Aa]ssets/Plugins/chatGPTAIGirlFriendSample-baidu/**/
-!/[Aa]ssets/Plugins/chatGPTAIGirlFriendSample-baidu/**/*.cs
+[Aa]ssets/Plugins/A*
 [Aa]ssets/Plugins/Ninjutsu Games/**/*
 ![Aa]ssets/Plugins/Ninjutsu Games/**/
 ![Aa]ssets/Plugins/Ninjutsu Games/**/*.cs
-[Aa]ssets/Plugins/P*
-[Aa]ssets/Plugins.meta
 [Aa]ssets/Plugins/Easy Build System/**/*
 !/[Aa]ssets/Plugins/Easy Build System/**/
 !/[Aa]ssets/Plugins/Easy Build System/**/*.cs
+[Aa]ssets/Plugins/P*
+[Aa]ssets/Plugins.meta
 [Aa]ssets/Models*
 [Aa]ssets/Gizmos*
 [Aa]ssets/TextMesh Pro*
 [Aa]ssets/include.puml
 [Aa]ssets/_*
 
+*.log
+*.txt
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # [Aa]ssets/AssetStoreTools*

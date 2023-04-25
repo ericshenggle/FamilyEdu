@@ -20,13 +20,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Plugins/GameCreator/Examples/Scenes/Example-3.unity
     guid: 049c31a0f8082406eb0a64934aa5f3b4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/LoginLoading.unity
     guid: 0700249ecc9784a93bb117e8ddef3384
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Lobby.unity
     guid: 484b1c7a1b4ba4924a06d0d7f9b58687
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Home.unity
     guid: a0afe15fe5f604bd3b0e354866b6fc11
   - enabled: 1

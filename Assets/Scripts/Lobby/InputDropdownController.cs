@@ -41,6 +41,11 @@ namespace Lobby
             onSel.callback.AddListener(e => OnInputValueChanged());
             onSel.eventID = EventTriggerType.Select;
             eventTrigger.triggers.Add(onSel);
+
+            var onUnsel = new EventTrigger.Entry();
+            onUnsel.callback.AddListener(e => OnEndInputValueChanged());
+            onUnsel.eventID = EventTriggerType.Deselect;
+            eventTrigger.triggers.Add(onUnsel);
         }
 
         private void OnInputValueChanged()
@@ -48,6 +53,11 @@ namespace Lobby
             scrollViewContent.gameObject.SetActive(true);
             currentInput = inputField.text;
             FilterOptions();
+        }
+
+        private void OnEndInputValueChanged()
+        {
+            scrollViewContent.gameObject.SetActive(false);
         }
 
         private void FilterOptions()

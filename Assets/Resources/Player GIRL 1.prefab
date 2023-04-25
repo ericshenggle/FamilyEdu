@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: -7864877287298142746}
   - component: {fileID: 741252544517385294}
   - component: {fileID: 7034867131698587492}
+  - component: {fileID: 6981455783895519519}
   m_Layer: 0
   m_Name: Player GIRL 1
   m_TagString: Player
@@ -63,6 +64,7 @@ MonoBehaviour:
   gid: 61085a3b-b822-4113-8098-90e85d736c8f
   references:
   - {fileID: 7034867131698587492}
+  - {fileID: 6981455783895519519}
 --- !u!114 &114607186511614388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,6 +531,42 @@ MonoBehaviour:
       value: 0
     varBol:
       value: 1
+    varCol:
+      value: {r: 1, g: 1, b: 1, a: 1}
+    varVc2:
+      value: {x: 0, y: 0}
+    varVc3:
+      value: {x: 0, y: 0, z: 0}
+    varTxt:
+      value: {fileID: 0}
+    varSpr:
+      value: {fileID: 0}
+    varObj:
+      value: {fileID: 0}
+  isExpanded: 1
+--- !u!114 &6981455783895519519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686582474529990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5427d7a3d7317485f8580bfb4a87d521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  variable:
+    name: isTeaching
+    save: 0
+    type: 3
+    tags: 0
+    varStr:
+      value: 
+    varNum:
+      value: 0
+    varBol:
+      value: 0
     varCol:
       value: {r: 1, g: 1, b: 1, a: 1}
     varVc2:
