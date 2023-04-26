@@ -14,10 +14,6 @@ namespace MyTools
      public static void Log(object message, UnityEngine.Object obj = null) {
          UnityEngine.Debug.Log(message, obj);
      }
-
-     public static void LogFormat(string message, params object [] args) {
-         UnityEngine.Debug.LogFormat(message, args);
-     }
  
      public static void LogWarning(object message, UnityEngine.Object obj = null) {
          UnityEngine.Debug.LogWarning(message, obj);

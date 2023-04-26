@@ -50,17 +50,43 @@ namespace Classroom.AgoraScripts
         public Text microphoneText;
 
         #region Audio Attributions
-        private const int CHANNEL = 1;
-        private const int PULL_FREQ_PER_SEC = 100;
-        public const int SAMPLE_RATE = 32000; // this should = CLIP_SAMPLES x PULL_FREQ_PER_SEC
-        public const int CLIP_SAMPLES = 320;
+        public const uint VOLUME_THRESHOLD = 150;
+
+        public Room CurrentRoom
+        {
+            get
+            {
+                if (PhotonNetwork.InRoom)
+                {
+                    return PhotonNetwork.CurrentRoom;
+                }
+                return null;
+            }
+        }
+
+        public Player LocalPlayer
+        {
+            get
+            {
+                if (PhotonNetwork.InRoom)
+                {
+                    return PhotonNetwork.LocalPlayer;
+                }
+                return null;
+            }
+        }
+
+        public int LocalActNumber
+        {
+            get
+            {
+                return LocalPlayer == null ? 0 : LocalPlayer.ActorNumber;
+            }
+        }
 
         internal int _count;
         internal int _writeCount;
         internal int _readCount;
-
-
-        internal Dictionary<(uint, string), RingBuffer<float>> local_audioBuffer = new Dictionary<(uint, string), RingBuffer<float>>();
 
         #endregion
 
@@ -109,7 +135,9 @@ namespace Classroom.AgoraScripts
             RtcEngine.InitEventHandler(handler);
 
             RtcEngine.RegisterAudioFrameObserver(new AudioFrameObserver(this), OBSERVER_MODE.RAW_DATA);
-            RtcEngine.SetPlaybackAudioFrameBeforeMixingParameters(SAMPLE_RATE, 1);
+            RtcEngine.AdjustRecordingSignalVolume(300);
+            RtcEngine.EnableAudioVolumeIndication(200, 3, true);
+
         }
 
         private void SetBasicConfiguration()
@@ -131,9 +159,8 @@ namespace Classroom.AgoraScripts
         {
 
 
-            RtcEngine.JoinChannel(_token, _channelName, "", PhotonNetwork.InRoom ? (uint)PhotonNetwork.LocalPlayer.ActorNumber : 0);
-            MakeVideoView(0, PhotonNetwork.LocalPlayer, GetChannelName());
-            SetupAudio(0, PhotonNetwork.LocalPlayer, GetChannelName());
+            RtcEngine.JoinChannel(_token, _channelName, "", (uint)LocalActNumber);
+            MakeVideoView(0, LocalPlayer, GetChannelName());
             cameraText.text = "摄像头状态：开启";
             microphoneText.text = "麦克风状态：开启";
         }
@@ -150,22 +177,19 @@ namespace Classroom.AgoraScripts
             microphoneText.text = "麦克风状态：";
             foreach (Player player in PhotonNetwork.PlayerList)
             {
-                DestroyAudio(player, GetChannelName());
+                StopPlayAudio(player);
             }
-            local_audioBuffer.Clear();
         }
 
         public void StartPreview()
         {
             RtcEngine.StartPreview();
-            MakeVideoView(0, PhotonNetwork.LocalPlayer, GetChannelName());
-            SetupAudio(0, PhotonNetwork.LocalPlayer, GetChannelName());
+            MakeVideoView(0, LocalPlayer, GetChannelName());
         }
 
         public void StopPreview()
         {
             DestroyVideoView(0);
-            DestroyAudio(PhotonNetwork.LocalPlayer, GetChannelName());
             RtcEngine.StopPreview();
         }
 
@@ -241,13 +265,6 @@ namespace Classroom.AgoraScripts
         {
             MyDebug.Log("OnDestroy");
             if (RtcEngine == null) return;
-            foreach (VideoSurface videoSurface in local_VideoSurface.Values)
-            {
-                Destroy(videoSurface.gameObject);
-            }
-            local_audioBuffer.Clear();
-            local_VideoSurface.Clear();
-            RtcEngine.UnRegisterAudioFrameObserver();
             RtcEngine.InitEventHandler(null);
             RtcEngine.LeaveChannel();
             RtcEngine.Dispose();
@@ -366,7 +383,7 @@ namespace Classroom.AgoraScripts
 
         #region -- Audio Logic ---
 
-        internal void SetupAudio(uint uid, Player player, string channel_id)
+        internal void StartPlayAudio(Player player)
         {
             GameObject tagObject = player?.TagObject as GameObject;
             if (tagObject == null)
@@ -380,34 +397,13 @@ namespace Classroom.AgoraScripts
                 MyDebug.Log("player's tagobject has not AudioSource Component");
                 return;
             }
-            // //The larger the buffer, the higher the delay
-            var bufferLength = SAMPLE_RATE / PULL_FREQ_PER_SEC * CHANNEL * 100; // 1-sec-length buffer
-            RingBuffer<float> audioBuffer = new RingBuffer<float>(bufferLength, true);
-            local_audioBuffer.Add((uid, channel_id), audioBuffer);
-
-            AudioClip audioClip = AudioClip.Create("externalClip" + uid,
-                CLIP_SAMPLES,
-                CHANNEL, SAMPLE_RATE, true,
-                (data) =>
-                {
-                    for (var i = 0; i < data.Length; i++)
-                    {
-                        lock (local_audioBuffer[(uid, channel_id)])
-                        {
-                            if (local_audioBuffer[(uid, channel_id)].Count > 0)
-                            {
-                                data[i] = local_audioBuffer[(uid, channel_id)].Get();
-                            }
-                        }
-                    }
-                });
-            aud.clip = audioClip;
+            aud.enabled = true;
             aud.mute = true;
             aud.loop = true;
             aud.Play();
         }
 
-        internal void DestroyAudio(Player player, string channel_id)
+        internal void StopPlayAudio(Player player)
         {
             GameObject tagObject = player?.TagObject as GameObject;
             if (tagObject == null)
@@ -422,13 +418,6 @@ namespace Classroom.AgoraScripts
                 return;
             }
             aud.Stop();
-            Destroy(aud.clip);
-            aud.clip = null;
-            if (!local_audioBuffer.ContainsKey(((uint)player.ActorNumber, channel_id)))
-            {
-                return;
-            }
-            local_audioBuffer.Remove(((uint)player.ActorNumber, channel_id));
         }
 
         internal static float[] ConvertByteToFloat16(byte[] byteArray)
@@ -450,10 +439,12 @@ namespace Classroom.AgoraScripts
     internal class UserEventHandler : IRtcEngineEventHandler
     {
         private readonly MyJoinChannelVideo _myJoinChannelVideo;
+        private List<uint> speakingPlayers;
 
         internal UserEventHandler(MyJoinChannelVideo videoSample)
         {
             _myJoinChannelVideo = videoSample;
+            speakingPlayers = new List<uint>();
         }
 
         public override void OnError(int err, string msg)
@@ -492,18 +483,18 @@ namespace Classroom.AgoraScripts
         public override void OnUserJoined(RtcConnection connection, uint uid, int elapsed)
         {
             _myJoinChannelVideo.Log.UpdateLog(string.Format("OnUserJoined uid: ${0} elapsed: ${1}", uid, elapsed));
-            Player player = PhotonNetwork.CurrentRoom.GetPlayer((int)uid);
+            Player player = _myJoinChannelVideo.CurrentRoom.GetPlayer((int)uid);
             _myJoinChannelVideo.MakeVideoView(uid, player, _myJoinChannelVideo.GetChannelName());
-            _myJoinChannelVideo.SetupAudio(uid, player, _myJoinChannelVideo.GetChannelName());
+            _myJoinChannelVideo.StopPlayAudio(player);
         }
 
         public override void OnUserOffline(RtcConnection connection, uint uid, USER_OFFLINE_REASON_TYPE reason)
         {
             _myJoinChannelVideo.Log.UpdateLog(string.Format("OnUserOffLine uid: ${0}, reason: ${1}", uid,
                 (int)reason));
-            Player player = PhotonNetwork.CurrentRoom.GetPlayer((int)uid);
+            Player player = _myJoinChannelVideo.CurrentRoom.GetPlayer((int)uid);
             _myJoinChannelVideo.DestroyVideoView(uid);
-            _myJoinChannelVideo.DestroyAudio(player, _myJoinChannelVideo.GetChannelName());
+            _myJoinChannelVideo.StopPlayAudio(player);
         }
 
         public override void OnUplinkNetworkInfoUpdated(UplinkNetworkInfo info)
@@ -514,6 +505,48 @@ namespace Classroom.AgoraScripts
         public override void OnDownlinkNetworkInfoUpdated(DownlinkNetworkInfo info)
         {
             _myJoinChannelVideo.Log.UpdateLog("OnDownlinkNetworkInfoUpdated");
+        }
+
+        public override void OnAudioVolumeIndication(RtcConnection connection, AudioVolumeInfo[] speakers, uint speakerNumber, int totalVolume)
+        {
+            if (connection.channelId != _myJoinChannelVideo.GetChannelName())
+            {
+                return;
+            }
+            foreach (AudioVolumeInfo audioVolumeInfo in speakers)
+            {
+                MyDebug.Log("用户: " + audioVolumeInfo.uid + " 音量: " + audioVolumeInfo.volume + " 人声: " + audioVolumeInfo.vad);
+                if (audioVolumeInfo.uid == 0)   // 本地用户 
+                {
+                    if (audioVolumeInfo.vad == 1)
+                    {
+                        _myJoinChannelVideo.StartPlayAudio(_myJoinChannelVideo.LocalPlayer);
+                    }
+                    else
+                    {
+                        _myJoinChannelVideo.StopPlayAudio(_myJoinChannelVideo.LocalPlayer);
+                    }
+                }
+                else if (speakingPlayers.Contains(audioVolumeInfo.uid))
+                {
+                    if (audioVolumeInfo.volume <= MyJoinChannelVideo.VOLUME_THRESHOLD)
+                    {
+                        Player player = _myJoinChannelVideo.CurrentRoom.GetPlayer((int)audioVolumeInfo.uid);
+                        _myJoinChannelVideo.StopPlayAudio(player);
+                        speakingPlayers.Remove(audioVolumeInfo.uid);
+                    }
+                }
+                else
+                {
+                    if (audioVolumeInfo.volume > MyJoinChannelVideo.VOLUME_THRESHOLD)
+                    {
+                        Player player = _myJoinChannelVideo.CurrentRoom.GetPlayer((int)audioVolumeInfo.uid);
+                        _myJoinChannelVideo.StartPlayAudio(player);
+                        speakingPlayers.Add(audioVolumeInfo.uid);
+                    }
+                }
+
+            }
         }
     }
 
@@ -527,56 +560,18 @@ namespace Classroom.AgoraScripts
         {
             _myJoinChannelVideo = myJoinChannelVideo;
             _audioParams = new AudioParams();
-            _audioParams.sample_rate = 16000;
-            _audioParams.channels = 2;
+            _audioParams.sample_rate = 8000;
+            _audioParams.channels = 1;
             _audioParams.mode = RAW_AUDIO_FRAME_OP_MODE_TYPE.RAW_AUDIO_FRAME_OP_MODE_READ_ONLY;
             _audioParams.samples_per_call = 1024;
-        }
-
-        public override bool OnRecordAudioFrame(string channelId, AudioFrame audioFrame)
-        {
-            var floatArray = MyJoinChannelVideo.ConvertByteToFloat16(audioFrame.RawBuffer);
-            if (!_myJoinChannelVideo.local_audioBuffer.ContainsKey((0, channelId)))
-            {
-                return false;
-            }
-
-            lock (_myJoinChannelVideo.local_audioBuffer[(0, channelId)])
-            {
-                MyDebug.Log("OnRecordAudioFrame-----------");
-                _myJoinChannelVideo.local_audioBuffer[(0, channelId)].Put(floatArray);
-            }
-            return true;
-        }
-
-        public override int GetObservedAudioFramePosition()
-        {
-            MyDebug.Log("GetObservedAudioFramePosition-----------");
-            return (int)(
-                AUDIO_FRAME_POSITION.AUDIO_FRAME_POSITION_RECORD |
-                AUDIO_FRAME_POSITION.AUDIO_FRAME_POSITION_BEFORE_MIXING);
-        }
-
-        public override AudioParams GetRecordAudioParams()
-        {
-            MyDebug.Log("GetRecordAudioParams-----------");
-            return this._audioParams;
         }
 
         public override bool OnPlaybackAudioFrameBeforeMixing(string channel_id,
                                                         uint uid,
                                                         AudioFrame audio_frame)
         {
-            var floatArray = MyJoinChannelVideo.ConvertByteToFloat16(audio_frame.RawBuffer);
-            if (!_myJoinChannelVideo.local_audioBuffer.ContainsKey((uid, channel_id)))
-            {
-                return false;
-            }
-            lock (_myJoinChannelVideo.local_audioBuffer[(uid, channel_id)])
-            {
-                MyDebug.Log("OnPlaybackAudioFrameBeforeMixing-----------");
-                _myJoinChannelVideo.local_audioBuffer[(uid, channel_id)].Put(floatArray);
-            }
+            Debug.LogFormat("OnPlaybackAudioFrameBeforeMixing-----------uid:{0} {1} {2}",
+                        uid, audio_frame.samplesPerChannel, audio_frame.samplesPerSec);
             return true;
         }
     }
