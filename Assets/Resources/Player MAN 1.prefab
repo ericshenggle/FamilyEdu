@@ -541,10 +541,10 @@ MonoBehaviour:
   randomHoldDurationMax: 0.5
   configReady: 1
   warnOnNullRefs: 1
-  inspSalsaLinked: 0
-  inspStateFoldoutProcessing: 1
+  inspSalsaLinked: 1
+  inspStateFoldoutProcessing: 0
   inspStateFoldoutSettings: 0
-  inspStateFoldoutEmotes: 0
+  inspStateFoldoutEmotes: 1
   inspCollectionDisplayMode: 0
 --- !u!114 &4225012468205199962
 MonoBehaviour:
