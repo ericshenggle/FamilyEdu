@@ -55,7 +55,7 @@ namespace MyTools.Actions
                 this.sceneName.GetValue(target),
                 this.mode
             );
-            
+
             asyncOperation.allowSceneActivation = false;
 
             while (!asyncOperation.isDone)
@@ -66,12 +66,13 @@ namespace MyTools.Actions
 
                 if (asyncOperation.progress >= 0.9f)
                 {
-                    slider.value = 1;
-                    text.text = "100%";
                     yield return new WaitForSeconds(0.5f);
                     if (withBuildingSaver && ((upload && MyHomeModel_API.Instance.isCompletedUpLoad) ||
                         (!upload && MyHomeModel_API.Instance.isCompletedDownLoad)))
                     {
+                        slider.value = 1;
+                        text.text = "100%";
+                        yield return new WaitForSeconds(0.5f);
                         asyncOperation.allowSceneActivation = true;
                     }
                     else if (!withBuildingSaver)

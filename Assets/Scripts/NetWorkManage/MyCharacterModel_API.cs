@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Globalization;
 using Classroom;
+using UnityEngine.UI;
 
 namespace NetWorkManage
 {
@@ -69,6 +70,8 @@ namespace NetWorkManage
         [SerializeField] public List<GameObject> m_GirlModels = new List<GameObject>();
 
         public ResponseData myModelData;
+
+        public Text apiInfo;
 
 
         public void getUserModelIdRequest()
@@ -252,6 +255,8 @@ namespace NetWorkManage
             }
             CharacterAnimator targetCharAnim = GetComponentInChildren<CharacterAnimator>();
             targetCharAnim.ChangeModel(t_characterModels[index]);
+            Character targetCharacter = GetComponentInChildren<Character>();
+            targetCharacter.characterLocomotion.SetIsControllable(true);
             if (!isChild)
             {
                 MyMouseLock myMouseLock = GetComponent<MyMouseLock>();
@@ -280,6 +285,8 @@ namespace NetWorkManage
             {
                 m_selectedModel.Get("SelectedModel").Update(index);
             }
+
+            apiInfo.text = "加载用户信息成功";
 
         }
     }

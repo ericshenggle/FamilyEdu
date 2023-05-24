@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using System.Globalization;
 using Classroom;
+using GameCreator.Characters;
+using GameCreator.Core.Hooks;
 using MyTools;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -229,6 +231,10 @@ namespace NetWorkManage
             if (RequestSender.Instance != null)
             {
                 this.getUserInfoRequest(RequestSender.Instance.UserId);
+                if (HookPlayer.Instance != null) {
+                    Character character = HookPlayer.Instance.Get<Character>();
+                    character.characterLocomotion.SetIsControllable(false);
+                }
             }
         }
 

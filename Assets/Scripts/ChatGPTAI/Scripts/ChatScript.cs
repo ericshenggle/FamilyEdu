@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using GameCreator.Variables;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -33,7 +34,14 @@ public class ChatScript : MonoBehaviour
 
     //gpt-3.5-turbo
     [SerializeField] public GptTurboScript m_GptTurboScript;
-    [SerializeField] public GameObject localVariables;
+
+    private void OnEnable() {
+        m_InputWord.enabled = true;
+    }
+
+    private void OnDisable() {
+        StopAllCoroutines();
+    }
 
     //发送信息
     public void SendData()
@@ -41,6 +49,7 @@ public class ChatScript : MonoBehaviour
         if (m_InputWord.text.Equals(""))
             return;
 
+        m_InputWord.enabled = false;
         //记录聊天
         m_ChatHistory.Add(m_InputWord.text);
 
@@ -70,12 +79,6 @@ public class ChatScript : MonoBehaviour
         //m_InputWord.text = "";
         m_TextBack.text = "...";
     }
-
-    public void StopTexting()
-    {
-        VariablesManager.SetLocal(localVariables, "isTexting", false, false);
-    }
-
 
     //AI回复的信息
     private void SpeechCallBack(string _callback)
@@ -121,7 +124,6 @@ public class ChatScript : MonoBehaviour
     private IEnumerator SetTextPerWord(string _msg)
     {
         int currentPos = 0;
-        VariablesManager.SetLocal(localVariables, "isTexting", true, false);
         while (m_WriteState)
         {
             yield return new WaitForSeconds(m_WordWaitTime);
@@ -131,7 +133,7 @@ public class ChatScript : MonoBehaviour
 
             m_WriteState = currentPos < _msg.Length;
         }
-        VariablesManager.SetLocal(localVariables, "isTexting", false, false);
+        m_InputWord.enabled = true;
     }
 
     #endregion

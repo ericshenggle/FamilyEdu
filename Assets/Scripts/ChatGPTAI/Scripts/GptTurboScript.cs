@@ -10,7 +10,7 @@ using UnityEngine.Networking;
 public class GptTurboScript : MonoBehaviour
 {
     /// <summary>
-    /// apiµØÖ·
+    /// apiï¿½ï¿½Ö·
     /// </summary>
     public string m_ApiUrl = "https://api.openai.com/v1/chat/completions";
     /// <summary>
@@ -18,21 +18,21 @@ public class GptTurboScript : MonoBehaviour
     /// </summary>
     public string m_gptModel = "gpt-3.5-turbo";
     /// <summary>
-    /// »º´æ¶Ô»°
+    /// ï¿½ï¿½ï¿½ï¿½Ô»ï¿½
     /// </summary>
     [SerializeField]public List<SendData> m_DataList = new List<SendData>();
     /// <summary>
-    /// AIÈËÉè
+    /// AIï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public string Prompt;
 
     private void Start()
     {
-        //ÔËĞĞÊ±£¬Ìí¼ÓÈËÉè
+        //ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         m_DataList.Add(new SendData("system", Prompt));
     }
     /// <summary>
-    /// µ÷ÓÃ½Ó¿Ú
+    /// ï¿½ï¿½ï¿½Ã½Ó¿ï¿½
     /// </summary>
     /// <param name="_postWord"></param>
     /// <param name="_openAI_Key"></param>
@@ -40,7 +40,7 @@ public class GptTurboScript : MonoBehaviour
     /// <returns></returns>
     public IEnumerator GetPostData(string _postWord,string _openAI_Key, System.Action<string> _callback)
     {
-        //»º´æ·¢ËÍµÄĞÅÏ¢ÁĞ±í
+        //ï¿½ï¿½ï¿½æ·¢ï¿½Íµï¿½ï¿½ï¿½Ï¢ï¿½Ğ±ï¿½
         m_DataList.Add(new SendData("user", _postWord));
 
         using (UnityWebRequest request = new UnityWebRequest(m_ApiUrl, "POST"))
@@ -61,26 +61,31 @@ public class GptTurboScript : MonoBehaviour
 
             yield return request.SendWebRequest();
 
-            if (request.responseCode == 200)
+            if (request.result == UnityWebRequest.Result.Success && request.responseCode == 200)
             {
+
                 string _msg = request.downloadHandler.text;
                 MessageBack _textback = JsonUtility.FromJson<MessageBack>(_msg);
                 if (_textback != null && _textback.choices.Count > 0)
                 {
 
                     string _backMsg = _textback.choices[0].message.content;
-                    //Ìí¼Ó¼ÇÂ¼
+                    //ï¿½ï¿½ï¿½Ó¼ï¿½Â¼
                     m_DataList.Add(new SendData("assistant", _backMsg));
                     _callback(_backMsg);
                 }
 
+            }
+            else
+            {
+                _callback("ç½‘ç»œé”™è¯¯ï¼Œè¯·é‡æ–°æé—®");
             }
         }
 
 
     }
 
-    #region Êı¾İ°ü
+    #region ï¿½ï¿½ï¿½İ°ï¿½
 
     [Serializable]public class PostData
     {

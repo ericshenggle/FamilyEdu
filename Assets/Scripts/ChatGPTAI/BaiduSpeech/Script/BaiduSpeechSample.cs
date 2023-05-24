@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Text;
 using System.Text.RegularExpressions;
+using GameCreator.Variables;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Rendering;
@@ -13,11 +14,11 @@ public class BaiduSpeechSample : MonoBehaviour
     /// <summary>
     /// API Key
     /// </summary>
-    [Header("填写应用的API Key")]public string m_Client_id=string.Empty;
+    [Header("填写应用的API Key")] public string m_Client_id = string.Empty;
     /// <summary>
     /// Secret Key
     /// </summary>
-    [Header("填写应用的Secret Key")] public string m_Client_secret=string.Empty;
+    [Header("填写应用的Secret Key")] public string m_Client_secret = string.Empty;
     /// <summary>
     /// token值
     /// </summary>
@@ -38,12 +39,35 @@ public class BaiduSpeechSample : MonoBehaviour
     /// 语音合成设置
     /// </summary>
     [SerializeField] private PostDataSetting m_Post_Setting;
+    
+    [SerializeField] public GameObject localVariables;
+    private bool ignoreChange;
     #endregion
 
     private void Start()
     {
         StartCoroutine(GetToken(GetTokenAction));
     }
+
+    private void Update()
+    {
+        if (m_AudioSource.isPlaying && !ignoreChange)
+        {
+            VariablesManager.SetLocal(localVariables, "isSpeeking", true, false);
+            ignoreChange = true;
+        }
+        else if (!m_AudioSource.isPlaying)
+        {
+            ignoreChange = false;
+            VariablesManager.SetLocal(localVariables, "isSpeeking", false, false);
+        }
+    }
+    
+    public void StopSpeeking()
+    {
+        VariablesManager.SetLocal(localVariables, "isSpeeking", false, false);
+    }
+
 
     #region Public Method
     /// <summary>
@@ -73,14 +97,14 @@ public class BaiduSpeechSample : MonoBehaviour
     /// </summary>
     /// <param name="_callback"></param>
     /// <returns></returns>
-    private  void GetAudioClip(SpeechResponse _callback)
+    private void GetAudioClip(SpeechResponse _callback)
     {
+        m_AudioSource.Stop();
         if (!_callback.Success)
             return;
 
         m_AudioSource.clip = _callback.clip;
         m_AudioSource.Play();
-
     }
 
 
@@ -92,7 +116,7 @@ public class BaiduSpeechSample : MonoBehaviour
     private IEnumerator GetToken(System.Action<string> _callback)
     {
         //获取token的api地址
-        string _token_url = string.Format(m_AuthorizeURL+"?client_id={0}&client_secret={1}&grant_type=client_credentials"
+        string _token_url = string.Format(m_AuthorizeURL + "?client_id={0}&client_secret={1}&grant_type=client_credentials"
             , m_Client_id, m_Client_secret);
 
         using (UnityWebRequest request = new UnityWebRequest(_token_url, "GET"))
@@ -145,22 +169,25 @@ public class BaiduSpeechSample : MonoBehaviour
         var _speech = UnityWebRequestMultimedia.GetAudioClip(_url, AudioType.WAV);
         yield return _speech.SendWebRequest();
 
-        if (_speech.error == null)
+        if (_speech.result == UnityWebRequest.Result.Success)
         {
             var type = _speech.GetResponseHeader("Content-Type");
             if (type.Contains("audio"))
             {
-
                 var response = new SpeechResponse { clip = DownloadHandlerAudioClip.GetContent(_speech) };
                 callback(response);
                 _callback(_msg);
             }
         }
+        else
+        {
+            _callback(_msg);
+        }
 
 
     }
     //基础音库:度小宇=1，度小美=0，度逍遥（基础）=3，度丫丫=4
-        /// 精品音库:度逍遥（精品）=5003，度小鹿=5118，度博文=106，度小童=110，度小萌=111，度米朵=103，度小娇=5
+    /// 精品音库:度逍遥（精品）=5003，度小鹿=5118，度博文=106，度小童=110，度小萌=111，度米朵=103，度小娇=5
     private string SetSpeeker(SpeekerRole _role)
     {
         if (_role == SpeekerRole.度小宇) return "1";
@@ -185,7 +212,8 @@ public class BaiduSpeechSample : MonoBehaviour
     /// <summary>
     /// 返回的token
     /// </summary>
-    [System.Serializable]public class TokenInfo
+    [System.Serializable]
+    public class TokenInfo
     {
         public string access_token = string.Empty;
     }
@@ -211,7 +239,7 @@ public class BaiduSpeechSample : MonoBehaviour
         /// <summary>
         /// 音调，取值0-15，默认为5中语调
         /// </summary>
-        [Header("音调，取值0-15，默认为5中语调")] public string pit ="5";
+        [Header("音调，取值0-15，默认为5中语调")] public string pit = "5";
         /// <summary>
         /// 音量，取值0-15，默认为5中音量（取值为0时为音量最小值，并非为无声）
         /// </summary>
@@ -263,10 +291,10 @@ public class BaiduSpeechSample : MonoBehaviour
 
 
     #endregion
-  
 
 
-  
+
+
 
 
 }
