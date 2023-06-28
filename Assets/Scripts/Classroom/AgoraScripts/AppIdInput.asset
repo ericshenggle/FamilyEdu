@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 310468f085ef24732beac714c9bb64fd, type: 3}
   m_Name: AppIdInput
   m_EditorClassIdentifier: 
-  appID: a6ce8e232e464fc98371bd3aab6b48d4
-  token: 007eJxTYPiU9MuhKFnSQffEp/crN26YFHqj+9yREE6+BSf+BeoWaJQpMCSaJadapBoZG6WamJmkJVtaGJsbJqUYJyYmmSWZWKSYxO7KTWkIZGSoqpnDwsgAgSA+J4NbYm5mTqVrSikDAwCAXCLp
+  appID: 
+  token: 
   channelName: FamilyEdu
