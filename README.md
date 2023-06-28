@@ -18,6 +18,6 @@
 
 # 运行说明
 
-下载[链接](https://drive.google.com/drive/folders/17jYldy5yt5tTBoB2gN8ZLLn-Nl35Dt7G?usp=drive_link)中的Unity可执行文件
+下载[链接](https://drive.google.com/drive/folders/17jYldy5yt5tTBoB2gN8ZLLn-Nl35Dt7G?usp=drive_link)中的FamilyEdu.zip文件并解压
 
 运行环境要求：macOS 10.12 Sierra（with Unity）及以上
