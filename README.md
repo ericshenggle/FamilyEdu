@@ -1,5 +1,6 @@
 # 部署说明
 
+编译器版本：2021.3.18fc1 Apple Silicon
 克隆该项目文件
 
 下载[链接](https://drive.google.com/drive/folders/17jYldy5yt5tTBoB2gN8ZLLn-Nl35Dt7G?usp=drive_link)中的ZIP文件并解压，将解压文件得到的`Plugins`文件夹替换原有的`Assets/Plugins`文件夹
