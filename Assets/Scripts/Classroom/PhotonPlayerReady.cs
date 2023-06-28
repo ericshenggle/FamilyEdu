@@ -40,6 +40,10 @@ namespace Classroom
         // Update is called once per frame
         void Update()
         {
+            if (localPlayerVariables != null)
+            {
+                playerCount = Mathf.FloorToInt(localPlayerVariables.Get("MaxPlayer").Get<float>());
+            }
             if (PhotonNetwork.InRoom && !isInControlling)
             {
                 Player[] players = PhotonNetwork.PlayerList;
@@ -49,7 +53,7 @@ namespace Classroom
                 {
                     GameObject invoker = player.TagObject as GameObject;
                     Character charater = invoker.GetComponent<Character>();
-                    if (t_count != 0 && t_count == playerCount)
+                    if (t_count != 0 && t_count == playerCount - 1)
                     {
                         charater.characterLocomotion.SetIsControllable(true);
                         isInControlling = true;
@@ -65,8 +69,9 @@ namespace Classroom
             {
                 Player[] players = PhotonNetwork.PlayerList;
                 int t_count = players.Length;
-                if (t_count != 0 && t_count < playerCount)
+                if (t_count != 0 && t_count < playerCount - 1)
                 {
+                    isInControlling = false;
                     PhotonNetwork.Disconnect();
                 }
             }

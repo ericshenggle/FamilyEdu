@@ -7619,7 +7619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -10129,7 +10129,7 @@ Transform:
   m_Children:
   - {fileID: 55196697}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &669230992 stripped
 Transform:
@@ -16920,7 +16920,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1100804515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19298,7 +19298,7 @@ Transform:
   m_Children:
   - {fileID: 1100804518}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1263126172
 GameObject:
@@ -23945,7 +23945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -28332,11 +28332,11 @@ MonoBehaviour:
   initialDirection: 0
   allowOrbitInput: 1
   orbitInput: 0
-  orbitSpeed: 15
+  orbitSpeed: 5
   maxPitch: 120
   sensitivity:
     optionIndex: 0
-    value: {x: 10, y: 10}
+    value: {x: 5, y: 5}
     global:
       allowTypesMask: 32
       name: 
@@ -30167,7 +30167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Client_id: htBySkYCvdRC5QTtiDvG5ta4
-  m_Client_secret: HYqogU9gUlOytbpVS4Mxltyyj9bSYelv
+  m_Client_secret: pl2t4QNBwwZe8cPaXTXGvk0WKIQUqAyh
   m_Token: 
   m_AudioSource: {fileID: 1992127399}
   m_AuthorizeURL: https://aip.baidubce.com/oauth/2.0/token

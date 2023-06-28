@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Text;
 using System.Text.RegularExpressions;
 using GameCreator.Variables;
+using MyTools;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Rendering;
@@ -39,7 +40,7 @@ public class BaiduSpeechSample : MonoBehaviour
     /// 语音合成设置
     /// </summary>
     [SerializeField] private PostDataSetting m_Post_Setting;
-    
+
     [SerializeField] public GameObject localVariables;
     private bool ignoreChange;
     #endregion
@@ -62,7 +63,7 @@ public class BaiduSpeechSample : MonoBehaviour
             VariablesManager.SetLocal(localVariables, "isSpeeking", false, false);
         }
     }
-    
+
     public void StopSpeeking()
     {
         VariablesManager.SetLocal(localVariables, "isSpeeking", false, false);
@@ -169,15 +170,13 @@ public class BaiduSpeechSample : MonoBehaviour
         var _speech = UnityWebRequestMultimedia.GetAudioClip(_url, AudioType.WAV);
         yield return _speech.SendWebRequest();
 
-        if (_speech.result == UnityWebRequest.Result.Success)
+        var type = _speech.GetResponseHeader("Content-Type");
+        MyDebug.Log(type);
+        if (type.Contains("audio"))
         {
-            var type = _speech.GetResponseHeader("Content-Type");
-            if (type.Contains("audio"))
-            {
-                var response = new SpeechResponse { clip = DownloadHandlerAudioClip.GetContent(_speech) };
-                callback(response);
-                _callback(_msg);
-            }
+            var response = new SpeechResponse { clip = DownloadHandlerAudioClip.GetContent(_speech) };
+            callback(response);
+            _callback(_msg);
         }
         else
         {
