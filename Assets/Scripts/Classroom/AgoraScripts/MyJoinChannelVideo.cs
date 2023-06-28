@@ -21,6 +21,12 @@ namespace Classroom.AgoraScripts
     {
         [FormerlySerializedAs("appIdInput")]
         [SerializeField]
+        /// <summary>
+        /// 输入Agora提供的：
+        /// 1. 私用appID
+        /// 2. 临时频道Token
+        /// 3. 频道名
+        /// </summary>
         private AppIdInput _appIdInput;
 
         [Header("_____________Basic Configuration_____________")]
