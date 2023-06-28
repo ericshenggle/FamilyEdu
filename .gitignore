@@ -16,11 +16,11 @@
 [Aa]ssets/Plugins/P*
 [Aa]ssets/Plugins.meta
 [Aa]ssets/Models*
-[Aa]ssets/Gizmos*
 [Aa]ssets/TextMesh Pro*
 [Aa]ssets/include.puml
 [Aa]ssets/_*
 
+*.zip
 *.log
 *.txt
 
